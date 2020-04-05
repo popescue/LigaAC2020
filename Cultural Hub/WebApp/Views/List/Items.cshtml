@@ -1,0 +1,42 @@
+﻿@using WebApp.Models
+@model IEnumerable<WebApp.Models.EventList>
+
+@{
+    ViewData["Title"] = "Items";
+}
+
+<h1>Items</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Tipul evenimentului
+            </th>
+            <th>
+               Locatie
+            </th>
+            <th>
+                Locuri disponibile
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.eventType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.availableSeats)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

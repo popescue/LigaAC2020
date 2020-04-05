@@ -1,8 +1,24 @@
-﻿
+﻿@using WebApp.Models
+@model WebApp.Models.Time
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
 
-<span>@DateTime.Now</span>
+<!--Metoda1. ViewBag-->
+
+@{
+    <!--Metoda1. ViewBag
+    var currentTime1 = ViewBag.Message; -->
+
+
+    <!--Metoda2. ViewData
+    var currentTime2 = (Time)ViewData["Message"];-->
+}
+<!--<h5>Id: (arond)currentTime1.time</h5> 
+<h5>Id: (arond)currentTime2.time</h5> -->
+
+<h6>@Model.time</h6>
+
+
