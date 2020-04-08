@@ -7,11 +7,28 @@ namespace Domain
 {
     public class Event
     {
-        public string Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public IEnumerable<string> Pictures { get; set; }
-        public Location Location { get; set; }
+        public string Id { get; }
+        public string Title { get; }
+        public string Description { get; }
+        public Location Location { get; }
+        public DateTime StartsAt { get; }
+        public TimeSpan Duration { get; }
+        public EventType Type { get; }
+        public Audience Audience { get; }
+        public DateTime PublishDate { get; }
+        public bool IsActive { get; }
+    }
+
+    public enum Audience
+    {
+        Children,
+        GeneralAudience
+    }
+
+    public enum EventType
+    {
+        Concert,
+        Theatre
     }
 }
 
