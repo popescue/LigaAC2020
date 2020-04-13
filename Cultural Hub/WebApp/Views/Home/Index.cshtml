@@ -1,8 +1,64 @@
-﻿@{
+﻿@model List<EventViewModel>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+<div>
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <table class="table table-borderless table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Titlu
+                </th>
+                <th>
+                    Locatie
+                </th>
+                <th>
+                    Tip Locatie
+                </th>
+                <th>
+                    Incepe la
+                </th>
+                <th>
+                    Tipul evenimentului
+                </th>
+                <th>
+                    Audienta
+                </th>
+                <th>
+                    Durata
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="@item.Id">@item.Title</a>
+                </td>
+                <td>
+                    @item.LocationAddress
+                </td>
+                <td>
+                    @item.LocationType
+                </td>
+                <td>
+                    @item.StartsAt.ToString("dddd, d MMMM yyyy hh:mm")
+                </td>
+                <td>
+                    @item.Type
+                </td>
+                <td>
+                    @item.Audience
+                </td>
+                <td>
+                    @item.Duration.ToString(@"hh\:mm\:ss")
+                </td>
+            </tr>
+            }
+        </tbody>   
+    </table>
 </div>

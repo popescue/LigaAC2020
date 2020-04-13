@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp", "WebApp\WebApp.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{3D583146-E53E-4920-8734-76D723B680AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cultural HubTest", "Cultural HubTest\Cultural HubTest.csproj", "{80435B4E-F96A-4A55-9730-1B2FFE6C648C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Tests", "Cultural HubTest\Domain.Tests.csproj", "{80435B4E-F96A-4A55-9730-1B2FFE6C648C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D03BBE56-CEB7-433F-AB3E-D3AF21CE3B24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +32,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{80435B4E-F96A-4A55-9730-1B2FFE6C648C} = {D03BBE56-CEB7-433F-AB3E-D3AF21CE3B24}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02CA4731-48A3-4983-AC5B-E063F6EFE5EB}
