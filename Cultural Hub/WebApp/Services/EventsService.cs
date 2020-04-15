@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApp.Factories;
 using WebApp.Models;
+using WebApp.Stores;
 
 namespace WebApp.Services
 {
@@ -36,12 +38,14 @@ namespace WebApp.Services
         {
             var eventListViewModels = EventsStore.GetEvents().Select(e =>
             {
+                List<Picture> pictures = PicturesStore.GetPicturesForEvent(e.Id);
                 var eventListViewModel = new EventListViewModel()
                 {
                     Id = e.Id,
                     Title = e.Title,
                     StartsAt = e.StartsAt,
-                    LocationAddress = e.Location.Address
+                    LocationAddress = e.Location.Address,
+                    Pictures = pictures.Select(p => p.Link).ToList()
                 };
 
                 return eventListViewModel;
