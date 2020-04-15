@@ -7,17 +7,20 @@ using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
-    public class EventViewModel
+    public class EventListViewModel
     {
         public string Id { get; set; }
+
         [Display(Name = "Titlu")]
         public string Title { get; set; }
+
+        [Display(Name = "Locație")]
         public string LocationAddress { get; set; }
-        public string LocationType { get; set; }
+
+        [Display(Name = "Incepe la")]
         public DateTime StartsAt { get; set; }
-        public TimeSpan Duration { get; set; }
-        public string Type { get; set; }
-        public string Audience { get; set; }
-        public List<Uri> Picture { get; set; }
+
+        [Display(Name = "Poze")]
+        public List<Uri> Pictures { get; set; }
     }
 }
