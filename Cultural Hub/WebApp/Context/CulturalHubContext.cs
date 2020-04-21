@@ -11,12 +11,19 @@ namespace WebApp.Context
     {
         public CulturalHubContext(DbContextOptions<CulturalHubContext> options) : base(options)
         {
-      
+            
         }
 
-        public DbSet<Event> EventDetailsModel { get; set; }
+        public DbSet<Event> Events { get; set; }
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<Location> Locations { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Event>().HasKey(e => e.Id);
+            modelBuilder.Entity<Picture>().HasNoKey();
+            modelBuilder.Entity<Location>().HasNoKey();
+        }
 
     }
 }

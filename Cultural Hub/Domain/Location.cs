@@ -9,6 +9,8 @@ namespace Domain
         public string Address { get; set; }
         public LocationType Type { get; set; }
 
+        public string EventId { get; set; }
+
         public Location(string Address, LocationType Type)
         {
             if (string.IsNullOrWhiteSpace(Address))
