@@ -48,7 +48,7 @@ namespace WebApp.Factories
                 ),
                 new Event(
                     "987thu",
-                    "catei",
+                    "capre",
                     "descriere capre",
                     "strada lalelelor",
                     LocationType.Outdoor,

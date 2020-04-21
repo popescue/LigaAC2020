@@ -18,13 +18,13 @@ namespace WebApp.Stores
                 {
                     EventId = "123abc",
                     Description = "description pic1",
-                    Link = new Uri("https://agrobiznes.md/wp-content/uploads/2013/02/capre.jpg")
+                    Link = new Uri("https://image.stirileprotv.ro/media/images/680xX/Apr2010/60415012.jpg")
                 },
                 new Picture
                 {
                     EventId = "123abc",
                     Description = "description pic2",
-                    Link = new Uri("http://www.zooland.ro//data/articles/40/1407/Clipboard011-0n.jpg")
+                    Link = new Uri("https://s3.publi24.ro/vertical-ro-f646bd5a/extralarge/20190106/1426/aa23d5ae00e464c48f9d6bb01a05c3fd.jpg")
                 },
                 new Picture
                 {
@@ -36,13 +36,7 @@ namespace WebApp.Stores
                 {
                     EventId = "345dfr",
                     Description = "description pic1",
-                    Link = new Uri("https://agrobiznes.md/wp-content/uploads/2013/02/capre.jpg")
-                },
-                new Picture
-                {
-                    EventId = "345dfr",
-                    Description = "description pic2",
-                    Link = new Uri("http://www.zooland.ro//data/articles/40/1407/Clipboard011-0n.jpg")
+                    Link = new Uri("https://www.animalepierdute.ro/wp-content/uploads/2019/07/pisica-scottish-fold-699x414.jpg")
                 },
                 new Picture
                 {
@@ -52,21 +46,21 @@ namespace WebApp.Stores
                 },
                 new Picture
                 {
+                    EventId = "345dfr",
+                    Description = "description pic2",
+                    Link = new Uri("https://storage0.dms.mpinteractiv.ro/media/401/721/10072/16015503/1/pisici.jpg")
+                },
+                new Picture
+                {
                     EventId = "987thu",
-                    Description = "description pic1",
+                    Description = "description pic2",
                     Link = new Uri("https://agrobiznes.md/wp-content/uploads/2013/02/capre.jpg")
                 },
                 new Picture
                 {
                     EventId = "987thu",
                     Description = "description pic2",
-                    Link = new Uri("http://www.zooland.ro//data/articles/40/1407/Clipboard011-0n.jpg")
-                },
-                new Picture
-                {
-                    EventId = "987thu",
-                    Description = "description pic2",
-                    Link = new Uri("https://i.ytimg.com/vi/Wz01h5lRFHM/maxresdefault.jpg")
+                    Link = new Uri("https://evz.ro/wp-content/uploads/2016/01/a-apasat-pe-sarpe-si-i-au-iesit-din-stomac-doua-capre-intregi-vi.jpg")
                 }
             };
         }
