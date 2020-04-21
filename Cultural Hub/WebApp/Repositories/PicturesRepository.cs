@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebApp.Stores
+namespace WebApp.Repositories
 {
-    public static class PicturesStore
+    public static class PicturesRepository
     {
         private static List<Picture> _pictures;
 
-        static PicturesStore()
+        static PicturesRepository()
         {
             _pictures = new List<Picture>
             {

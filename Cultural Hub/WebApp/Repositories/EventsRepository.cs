@@ -5,13 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApp.Models;
 
-namespace WebApp.Factories
+namespace WebApp.Repositories
 {
-    public static class EventsStore
+    public static class EventsRepository
     {
         private static List<Event> _events;
 
-        static EventsStore()
+        static EventsRepository()
         {
             InitializeEvents();
         }
