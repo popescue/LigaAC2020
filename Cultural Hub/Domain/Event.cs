@@ -18,7 +18,7 @@ namespace Domain
         public DateTime PublishDate { get; }
         public bool IsActive { get; }
 
-        public Event(string Id, string Title, string Description, string Address, LocationType LocationType, DateTime StartsAt,
+        public Event(string Id, string Title, string Description, Location Location, DateTime StartsAt,
                         TimeSpan Duration, EventType EventType, Audience Audience, DateTime PublishDate, bool isActive)
         {
             if (string.IsNullOrWhiteSpace(Id))
@@ -54,7 +54,7 @@ namespace Domain
             this.Id = Id;
             this.Title = Title;
             this.Description = Description;
-            this.Location = new Location(Address, LocationType);
+            this.Location = Location;
             this.StartsAt = StartsAt;
             this.Duration = Duration;
             this.Type = EventType;

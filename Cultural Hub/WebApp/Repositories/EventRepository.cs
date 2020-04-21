@@ -5,13 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApp.Models;
 
-namespace WebApp.Factories
+namespace WebApp.Repositories
 {
-    public static class EventsStore
+    public static class EventRepository
     {
         private static List<Event> _events;
 
-        static EventsStore()
+        static EventRepository()
         {
             InitializeEvents();
         }
@@ -24,8 +24,7 @@ namespace WebApp.Factories
                     "123abc",
                     "catei",
                     "descriere catei",
-                    "strada principala",
-                    LocationType.Indoor,
+                    new Location("strada principala", LocationType.Indoor),
                     new DateTime(2021, 1, 20, 12, 0, 0),
                     TimeSpan.FromHours(2),
                     EventType.Concert,
@@ -37,8 +36,7 @@ namespace WebApp.Factories
                     "345dfr",
                     "pisici",
                     "descriere pisici",
-                    "strada secundara",
-                    LocationType.Indoor,
+                    new Location("strada secundara", LocationType.Indoor),
                     new DateTime(2021, 1, 20, 12, 0, 0),
                     TimeSpan.FromHours(4),
                     EventType.Concert,
@@ -50,8 +48,7 @@ namespace WebApp.Factories
                     "987thu",
                     "capre",
                     "descriere capre",
-                    "strada lalelelor",
-                    LocationType.Outdoor,
+                    new Location("strada lalelelor", LocationType.Outdoor),
                     new DateTime(2021, 1, 20, 12, 0, 0),
                     TimeSpan.FromHours(2),
                     EventType.Theatre,

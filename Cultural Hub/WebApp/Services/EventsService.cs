@@ -3,9 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApp.Factories;
+using WebApp.Repositories;
 using WebApp.Models;
-using WebApp.Stores;
 
 namespace WebApp.Services
 {
@@ -13,7 +12,7 @@ namespace WebApp.Services
     {
         public List<EventDetailsViewModel> GetEventDetails()
         {
-            var eventDetailsViewModels = EventsStore.GetEvents().Select(e =>
+            var eventDetailsViewModels = EventRepository.GetEvents().Select(e =>
             {
                 var eventDetailsViewModel = new EventDetailsViewModel()
                 {
@@ -36,9 +35,9 @@ namespace WebApp.Services
 
         public List<EventListViewModel> GetEventList()
         {
-            var eventListViewModels = EventsStore.GetEvents().Select(e =>
+            var eventListViewModels = EventRepository.GetEvents().Select(e =>
             {
-                List<Picture> pictures = PicturesStore.GetPicturesForEvent(e.Id);
+                List<Picture> pictures = PictureRepository.GetPicturesForEvent(e.Id);
                 var eventListViewModel = new EventListViewModel()
                 {
                     Id = e.Id,
