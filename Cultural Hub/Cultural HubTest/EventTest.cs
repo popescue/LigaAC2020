@@ -14,7 +14,7 @@ namespace Cultural_HubTest
             TimeSpan t1 = new TimeSpan(1, 3, 0, 0);
             Event e;
             Assert.ThrowsException<ArgumentException>(() => e = new Event("123", "titlu", "costel costeleste",
-                                                    "strada Costle Doreleanu, 75", LocationType.Indoor, d1, t1,
+                                                    new Location("strada Costle Doreleanu, 75", LocationType.Indoor), d1, t1,
                                                      EventType.Concert, Audience.GeneralAudience, d1, false));
         }
 
@@ -25,7 +25,7 @@ namespace Cultural_HubTest
             TimeSpan t1 = new TimeSpan(2, 3, 0, 0);
             Event e;
             Assert.ThrowsException<ArgumentException>(() => e = new Event("123", "titlu", "costel costeleste",
-                                                    "strada Costle Doreleanu, 75", LocationType.Indoor, d1, t1,
+                                                    new Location("strada Costle Doreleanu, 75", LocationType.Indoor), d1, t1,
                                                      EventType.Concert, Audience.GeneralAudience, d1, false));
         }
 
@@ -36,7 +36,7 @@ namespace Cultural_HubTest
             TimeSpan t1 = new TimeSpan(2, 2, 5, 0);
             Event e;
             Assert.ThrowsException<ArgumentException>(() => e = new Event("123", "titlu", "costel costeleste",
-                                                    "strada Costle Doreleanu, 75", LocationType.Indoor, d1, t1,
+                                                    new Location("strada Costle Doreleanu, 75", LocationType.Indoor), d1, t1,
                                                      EventType.Concert, Audience.GeneralAudience, d1, false));
         }
 
@@ -47,7 +47,7 @@ namespace Cultural_HubTest
             TimeSpan t1 = new TimeSpan(55, 5, 0);
             Event e;
             Assert.ThrowsException<ArgumentException>(() => e = new Event("123", "titlu", "costel costeleste",
-                                                    "strada Costle Doreleanu, 75", LocationType.Indoor, d1, t1,
+                                                    new Location("strada Costle Doreleanu, 75", LocationType.Indoor), d1, t1,
                                                      EventType.Concert, Audience.GeneralAudience, d1, false));
         }
 
@@ -58,7 +58,7 @@ namespace Cultural_HubTest
             TimeSpan t1 = new TimeSpan(55, 5, 0);
             Event e;
             Assert.ThrowsException<ArgumentException>(() => e = new Event("", "titlu", "costel costeleste",
-                                                    "strada Costle Doreleanu, 75", LocationType.Indoor, d1, t1,
+                                                    new Location("strada Costle Doreleanu, 75", LocationType.Indoor), d1, t1,
                                                      EventType.Concert, Audience.GeneralAudience, d1, false));
         }
 
@@ -69,7 +69,7 @@ namespace Cultural_HubTest
             TimeSpan t1 = new TimeSpan(55, 5, 0);
             Event e;
             Assert.ThrowsException<ArgumentException>(() => e = new Event(null, "titlu", "costel costeleste",
-                                                    "strada Costle Doreleanu, 75", LocationType.Indoor, d1, t1,
+                                                    new Location("strada Costle Doreleanu, 75", LocationType.Indoor), d1, t1,
                                                      EventType.Concert, Audience.GeneralAudience, d1, false));
         }
 
@@ -80,7 +80,7 @@ namespace Cultural_HubTest
             TimeSpan t1 = new TimeSpan(55, 5, 0);
             Event e;
             Assert.ThrowsException<ArgumentException>(() => e = new Event("123", null, "costel costeleste",
-                                                    "strada Costle Doreleanu, 75", LocationType.Indoor, d1, t1,
+                                                    new Location("strada Costle Doreleanu, 75", LocationType.Indoor), d1, t1,
                                                      EventType.Concert, Audience.GeneralAudience, d1, false));
         }
 
@@ -91,7 +91,7 @@ namespace Cultural_HubTest
             TimeSpan t1 = new TimeSpan(55, 5, 0);
             Event e;
             Assert.ThrowsException<ArgumentException>(() => e = new Event("123", "", "costel costeleste",
-                                                    "strada Costle Doreleanu, 75", LocationType.Indoor, d1, t1,
+                                                    new Location("strada Costle Doreleanu, 75", LocationType.Indoor), d1, t1,
                                                      EventType.Concert, Audience.GeneralAudience, d1, false));
         }
 
@@ -102,8 +102,8 @@ namespace Cultural_HubTest
             TimeSpan t1 = new TimeSpan(55, 5, 0);
             Event e;
             Assert.ThrowsException<ArgumentException>(() => e = new Event("123",
-                                                    new string('a', 101), 
-                                                    "costel costeleste", "strada Costle Doreleanu, 75", LocationType.Indoor, d1, t1,
+                                                    new string('a', 101), "descriere",
+                                                    new Location("strada Costle Doreleanu, 75", LocationType.Indoor), d1, t1,
                                                      EventType.Concert, Audience.GeneralAudience, d1, false));
         }
     }
