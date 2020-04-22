@@ -24,5 +24,23 @@ namespace WebApp.Controllers
 
             return View(_eventsService.GetEventDetailsById(id));
         }
+
+        [HttpPost]
+        public IActionResult AddEvent(EventDetailsViewModel eventDetails)
+        {
+            return View(eventDetails);
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteEvent(EventDetailsViewModel eventDetails)
+        {
+            return View(eventDetails);
+        }
+
+        [HttpPut]
+        public IActionResult EditEvent(EventDetailsViewModel eventDetails)
+        {
+            return View(eventDetails);
+        }
     }
 }

@@ -57,6 +57,8 @@ namespace WebApp.Services
         {
             return GetEventDetails().Find(e => e.Id == id);
         }
+
+        public 
     }
 }
 

@@ -10,6 +10,7 @@ namespace WebApp.Repositories
     public static class EventsRepository
     {
         private static List<Event> _events;
+        private readonly AppDbContext _appDbContext;
 
         static EventsRepository()
         {
