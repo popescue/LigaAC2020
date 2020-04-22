@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace WebApp.Repositories
 {
-    interface IEventRepository
+    public interface IEventRepository
     {
         List<Event> GetEvents();
-        void Add(Event e);
-        void Update(Event e);
-        void Delete(string Id);
+        Event Add(Event e);
+        Event Update(Event e);
+        Event Delete(string Id);
         Event GetEventDetailsById(string Id);
 
     }

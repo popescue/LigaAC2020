@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Domain
@@ -10,6 +11,7 @@ namespace Domain
         public string Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        [NotMapped]
         public Location Location { get; set; }
         public DateTime StartsAt { get; set; }
         public TimeSpan Duration { get; set; }

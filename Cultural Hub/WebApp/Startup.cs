@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebApp.Context;
+using WebApp.Repositories;
 
 namespace WebApp
 {
@@ -28,6 +29,7 @@ namespace WebApp
             services.AddDbContext<CulturalHubContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllersWithViews();
+            //services.AddSingleton<IEventRepository, DBEventRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
