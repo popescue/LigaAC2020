@@ -8,16 +8,18 @@ using WebApp.Services;
 
 namespace WebApp.Controllers
 {
-   
+
     public class EventsController : Controller
     {
-        private EventsService _eventsService;
+        private IEventsService _eventsService;
 
-        public EventsController()
+        public EventsController(
+            IEventsService eventsService
+            )
         {
-            _eventsService = new EventsService();
+            _eventsService = eventsService;
         }
-        
+
         [HttpGet("{id}")]
         public IActionResult Details(string id)
         {
@@ -25,22 +27,28 @@ namespace WebApp.Controllers
             return View(_eventsService.GetEventDetailsById(id));
         }
 
-        [HttpPost]
-        public IActionResult AddEvent(EventDetailsViewModel eventDetails)
+        [HttpGet]
+        public IActionResult AddEvent()
         {
-            return View(eventDetails);
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddEvent(EventViewModel eventViewModel)
+        {
+            eventViewModel = _eventsService.AddEvent(eventViewModel);
+
+            return View(eventViewModel);
         }
 
         [HttpDelete]
-        public IActionResult DeleteEvent(EventDetailsViewModel eventDetails)
+        public IActionResult DeleteEvent(string eventId)
         {
-            return View(eventDetails);
-        }
+            var e = _eventsService.GetEvent(eventId);
 
-        [HttpPut]
-        public IActionResult EditEvent(EventDetailsViewModel eventDetails)
-        {
-            return View(eventDetails);
+            _eventsService.DeleteEvent(e);
+
+            return View();
         }
     }
 }

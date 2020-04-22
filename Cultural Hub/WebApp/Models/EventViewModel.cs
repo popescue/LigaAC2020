@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
-    public class EventDetailsViewModel
+    public class EventViewModel
     {
         [Required(ErrorMessage = "* Introduceti un ID valid")]
         public string Id { get; set; }
@@ -45,5 +45,11 @@ namespace WebApp.Models
 
         [Display(Name = "Poze")]
         public List<Uri> Pictures { get; set; }
+
+        [Display(Name = "Data publicarii")]
+        public DateTime PublishDate { get; set; }
+
+        [Display(Name = "E activ")]
+        public bool IsActive { get; set; }
     }
 }

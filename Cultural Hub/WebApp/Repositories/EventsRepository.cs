@@ -3,70 +3,62 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApp.Context;
 using WebApp.Models;
 
 namespace WebApp.Repositories
 {
-    public static class EventsRepository
+    public class EventsRepository : IEventsRepository
     {
-        private static List<Event> _events;
-        private readonly AppDbContext _appDbContext;
+        private readonly CulturalHubContext _culturalHubContext;
 
-        static EventsRepository()
+        public EventsRepository(CulturalHubContext culturalHubContext)
         {
-            InitializeEvents();
+            _culturalHubContext = culturalHubContext;
         }
 
-        private static void InitializeEvents()
+        public List<Event> GetEvents()
         {
-            _events = new List<Event>()
-            {
-                new Event(
-                    "123abc",
-                    "catei",
-                    "descriere catei",
-                    "strada principala",
-                    LocationType.Indoor,
-                    new DateTime(2021, 1, 20, 12, 0, 0),
-                    TimeSpan.FromHours(2),
-                    EventType.Concert,
-                    Audience.GeneralAudience,
-                    new DateTime(2021, 1, 20, 12, 0, 0),
-                    true
-                    ),
-                new Event(
-                    "345dfr",
-                    "pisici",
-                    "descriere pisici",
-                    "strada secundara",
-                    LocationType.Indoor,
-                    new DateTime(2021, 1, 20, 12, 0, 0),
-                    TimeSpan.FromHours(4),
-                    EventType.Concert,
-                    Audience.GeneralAudience,
-                    new DateTime(2021, 1, 20, 12, 0, 0),
-                    true
-                ),
-                new Event(
-                    "987thu",
-                    "capre",
-                    "descriere capre",
-                    "strada lalelelor",
-                    LocationType.Outdoor,
-                    new DateTime(2021, 1, 20, 12, 0, 0),
-                    TimeSpan.FromHours(2),
-                    EventType.Theatre,
-                    Audience.Children,
-                    new DateTime(2021, 1, 20, 12, 0, 0),
-                    true
+            return _culturalHubContext.Events
+                .Select(e => 
+                
+                        new Event(e.Id, 
+                        e.Title, e.Description, 
+                        new Location(e.LocationAddress, (LocationType)e.LocationType), 
+                        e.StartsAt, e.Duration, (EventType)e.Type, (Audience)e.Audience, 
+                        e.PublishDate, e.IsActive)
                 )
-
-            };
+                .ToList();
         }
 
-        public static List<Event> GetEvents()
+        public Event AddEvent(Event e)
         {
-            return _events;
+            //_culturalHubContext.Events.Add(e);
+
+            //_culturalHubContext.SaveChanges();
+
+            return e;
+        }
+
+        public void EditEvent(Event e)
+        {
+            //_culturalHubContext.Events.Update(e);
+
+            //_culturalHubContext.SaveChanges();
+        }
+
+        public void DeleteEvent(Event e)
+        {
+            //_culturalHubContext.Events.Remove(e);
+
+            //_culturalHubContext.SaveChanges();
+        }
+
+        public Event GetEventById(string eventId)
+        {
+            //var e = _culturalHubContext.Events.Find(eventId);
+
+            return null;
         }
     }
 }
