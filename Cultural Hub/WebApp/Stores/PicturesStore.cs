@@ -29,7 +29,7 @@ namespace WebApp.Stores
                 new Picture
                 {
                     EventId = "123abc",
-                    Description = "description pic2",
+                    Description = "description pic3",
                     Link = new Uri("https://i.ytimg.com/vi/Wz01h5lRFHM/maxresdefault.jpg")
                 },
                 new Picture
@@ -47,7 +47,7 @@ namespace WebApp.Stores
                 new Picture
                 {
                     EventId = "345dfr",
-                    Description = "description pic2",
+                    Description = "description pic3",
                     Link = new Uri("https://storage0.dms.mpinteractiv.ro/media/401/721/10072/16015503/1/pisici.jpg")
                 },
                 new Picture
@@ -59,7 +59,7 @@ namespace WebApp.Stores
                 new Picture
                 {
                     EventId = "987thu",
-                    Description = "description pic2",
+                    Description = "description pic3",
                     Link = new Uri("https://evz.ro/wp-content/uploads/2016/01/a-apasat-pe-sarpe-si-i-au-iesit-din-stomac-doua-capre-intregi-vi.jpg")
                 }
             };
