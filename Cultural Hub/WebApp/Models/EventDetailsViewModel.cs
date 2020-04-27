@@ -10,6 +10,7 @@ namespace WebApp.Models
 {
     public class EventDetailsViewModel
     {
+        [Required(ErrorMessage = "* Introduceti un ID valid")]
         public string Id { get; set; }
 
         [Display(Name = "Titlu")]

@@ -5,10 +5,10 @@ using System.Text;
 namespace Domain
 {
     public class Location
-    { 
-        public string Address { get; set; }
-        public LocationType Type { get; set; }
-        public string EventId { get; set; }
+    {
+        public string EventId { get; }
+        public string Address { get; }
+        public LocationType Type { get; }
 
         public Location(string Address, LocationType Type)
         {

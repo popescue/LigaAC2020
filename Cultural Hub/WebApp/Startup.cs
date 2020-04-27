@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebApp.Context;
+using WebApp.Repositories;
+using WebApp.Services;
 
 namespace WebApp
 {
@@ -26,8 +28,16 @@ namespace WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<CulturalHubContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options => options.UseSqlServer(Configuration.GetConnectionString("CulturalHubConnection")));
             services.AddControllersWithViews();
+
+            // register repositories
+            services.AddScoped<IEventsRepository, EventsRepository>();
+            services.AddScoped<IPicturesRepository, PicturesRepository>();
+
+            //register services
+            services.AddScoped<IEventsService, EventsService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -55,10 +55,8 @@
     </dl>
 </div>
 <div>
-    @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |*@
-
     <a asp-area="" asp-controller="Events" asp-action="EditEvent">Edit |</a>
-    <a asp-area="" asp-controller="Events" asp-action="DeleteEvent"> Delete |</a>
+    <a asp-area="" asp-controller="Events" asp-action="DeleteEvent" asp-route-eventId="@Model.Id"> Delete |</a>
     <a asp-area="" asp-controller="Home" asp-action="Index"> Back to List</a>
 </div>
 
