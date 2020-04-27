@@ -66,6 +66,29 @@ namespace WebApp.Services
             return eventShortInfoViewModels;
         }
 
+        public CrudEventViewModel GetCrudEventViewModelById(string eventId)
+        {
+            var e = _eventsRepository.GetEventById(eventId);
+
+            var crudEventViewModel = new CrudEventViewModel()
+            {
+                Id = e.Id,
+                Title = e.Title,
+                Description = e.Description,
+                Address = e.Location.Address,
+                LocationType = e.Location.Type,
+                Audience = e.Audience,
+                Duration = (int)e.Duration.TotalHours,
+                Type = e.Type,
+                PublishDate = e.PublishDate,
+                IsActive = e.IsActive,
+                StartsAt = e.StartsAt,
+                Pictures = _picturesRepository.GetPicturesForEvent(e.Id).Select(p => p.Link).ToList()
+            };
+
+            return crudEventViewModel;
+        }
+
         public EventDetailsViewModel GetEventDetailsById(string eventId)
         {
             var e = _eventsRepository.GetEventById(eventId);
@@ -89,12 +112,13 @@ namespace WebApp.Services
 
         public CrudEventViewModel AddEvent(CrudEventViewModel crudEventViewModel)
         {
+            // Create Event 
             var e = new Event(crudEventViewModel.Id,
                             crudEventViewModel.Title,
                             crudEventViewModel.Description,
                             new Location(crudEventViewModel.Address, crudEventViewModel.LocationType),
                             crudEventViewModel.StartsAt,
-                            new TimeSpan(crudEventViewModel.Duration),
+                            new TimeSpan(crudEventViewModel.Duration, 0, 0),
                             crudEventViewModel.Type,
                             crudEventViewModel.Audience,
                             crudEventViewModel.PublishDate,
@@ -117,6 +141,7 @@ namespace WebApp.Services
             var eFromDB = _eventsRepository.AddEvent(eventStorageModel);
             crudEventViewModel.Id = eFromDB.Id;
 
+            // Create Pictures 
             var pictureStorageModels = crudEventViewModel.Pictures
                 .Where(p => p != null)
                 .Select(p => new Picture(eFromDB.Id, null, p))
@@ -134,55 +159,61 @@ namespace WebApp.Services
         }
 
 
-        public CrudEventViewModel EditEvent(CrudEventViewModel CrudEventViewModel)
+        public void EditEvent(CrudEventViewModel crudEventViewModel)
         {
-            //Enum.TryParse(CrudEventViewModel.Type, out EventType eventType);
-            //Enum.TryParse(CrudEventViewModel.Audience, out Audience audience);
-            //Enum.TryParse(CrudEventViewModel.LocationType, out LocationType locationType);
+            // Update Event 
+            var e = new Event(crudEventViewModel.Id,
+                crudEventViewModel.Title,
+                crudEventViewModel.Description,
+                new Location(crudEventViewModel.Address, crudEventViewModel.LocationType),
+                crudEventViewModel.StartsAt,
+                new TimeSpan(crudEventViewModel.Duration, 0, 0),
+                crudEventViewModel.Type,
+                crudEventViewModel.Audience,
+                crudEventViewModel.PublishDate,
+                crudEventViewModel.IsActive);
 
-            //var e = _eventsRepository.GetEventById(CrudEventViewModel.Id);
+            var eventStorageModel = new EventStorageModel()
+            {
+                Id = e.Id,
+                Title = e.Title,
+                StartsAt = e.StartsAt,
+                Description = e.Description,
+                Duration = e.Duration,
+                Audience = (int)e.Audience,
+                Type = (int)e.Type,
+                PublishDate = e.PublishDate,
+                IsActive = e.IsActive,
+                LocationAddress = e.Location.Address,
+                LocationType = (int)e.Location.Type
+            };
 
-            //e.Title = CrudEventViewModel.Title;
-            //e.StartsAt = CrudEventViewModel.StartsAt;
-            //e.Description = CrudEventViewModel.Description;
-            //e.Duration = CrudEventViewModel.Duration;
-            //e.Audience = audience;
-            //e.Type = eventType;
-            //e.PublishDate = CrudEventViewModel.PublishDate;
-            //e.IsActive = CrudEventViewModel.IsActive;
+            _eventsRepository.EditEvent(eventStorageModel);
 
-            //_eventsRepository.EditEvent(e);
+            // Update Pictures 
+            _picturesRepository.DeleteAllPicturesFromEvent(eventStorageModel.Id);
 
-            //var location = _locationsRepository.GetLocationByEventId(CrudEventViewModel.Id);
+            var pictureStorageModels = crudEventViewModel.Pictures
+                .Where(p => p != null)
+                .Select(p => new Picture(eventStorageModel.Id, null, p))
+                .Select(p => new PictureStorageModel()
+                {
+                    EventId = p.EventId,
+                    Description = p.Description,
+                    Link = p.Link
+                })
+                .ToList();
 
-            //location.Address = CrudEventViewModel.LocationAddress;
-            //location.Type = locationType;
-
-            //_locationsRepository.EditLocation(location);
-
-            //var pictures = _picturesRepository.GetPicturesForEvent(CrudEventViewModel.Id);
-
-            //pictures.ForEach(p => _picturesRepository.DeletePicture(p));
-
-            //CrudEventViewModel.Pictures.ForEach(p =>
-            //{
-            //    var picture = new Picture()
-            //    {
-            //        Link = p,
-            //        EventId = e.Id
-            //    };
-
-            //    _picturesRepository.AddPicture(picture);
-            //});
-
-            return CrudEventViewModel;
+            _picturesRepository.AddPicturesToEvent(pictureStorageModels);
         }
 
         public void DeleteEvent(string eventId)
-        { 
+        {
+            // Delete Event 
             _eventsRepository.DeleteEvent(eventId);
 
-            _picturesRepository.DeleteAllPicturesFromEvent(eventId);
+            // Delete Pictures 
+            _picturesRepository.SoftDeleteAllPicturesFromEvent(eventId);
         }
     }
 }

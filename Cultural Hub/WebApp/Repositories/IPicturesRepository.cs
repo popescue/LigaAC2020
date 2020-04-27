@@ -15,5 +15,6 @@ namespace WebApp.Repositories
 
         void DeleteAllPicturesFromEvent(string eventId);
 
+        void SoftDeleteAllPicturesFromEvent(string eventId);
     }
 }

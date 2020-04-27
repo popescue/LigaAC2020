@@ -44,5 +44,16 @@ namespace WebApp.Repositories
 
             _culturalHubContext.SaveChanges();
         }
+
+        public void SoftDeleteAllPicturesFromEvent(string eventId)
+        {
+            var picturesDB = _culturalHubContext.Pictures.Where(p => p.EventId == eventId).ToList();
+
+            picturesDB.ForEach(p => p.Deleted = DateTime.Now);
+
+            _culturalHubContext.Pictures.UpdateRange(picturesDB);
+
+            _culturalHubContext.SaveChanges();
+        }
     }
 }

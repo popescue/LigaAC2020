@@ -14,9 +14,11 @@ namespace WebApp.Services
 
         EventDetailsViewModel GetEventDetailsById(string id);
 
-        CrudEventViewModel AddEvent(CrudEventViewModel CrudEventViewModel);
+        CrudEventViewModel GetCrudEventViewModelById(string eventId);
 
-        CrudEventViewModel EditEvent(CrudEventViewModel CrudEventViewModel);
+        CrudEventViewModel AddEvent(CrudEventViewModel crudEventViewModel);
+
+        void EditEvent(CrudEventViewModel crudEventViewModel);
 
         void DeleteEvent(string eventId);
     }
