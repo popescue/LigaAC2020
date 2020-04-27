@@ -8,12 +8,16 @@ namespace WebApp.Services
 {
     public interface IEventsService
     {
-        List<EventDetailsViewModel> GetEventDetails();
-        List<EventListViewModel> GetEventList();
+        List<EventDetailsViewModel> GetEventDetailsList();
+
+        List<EventShortInfoViewModel> GetEventShortInfoList();
+
         EventDetailsViewModel GetEventDetailsById(string id);
-        EventViewModel GetEvent(string eventId);
-        EventViewModel AddEvent(EventViewModel eventViewModel);
-        EventViewModel EditEvent(EventViewModel eventViewModel);
-        void DeleteEvent(EventViewModel eventViewModel);
+
+        CrudEventViewModel AddEvent(CrudEventViewModel CrudEventViewModel);
+
+        CrudEventViewModel EditEvent(CrudEventViewModel CrudEventViewModel);
+
+        void DeleteEvent(CrudEventViewModel CrudEventViewModel);
     }
 }

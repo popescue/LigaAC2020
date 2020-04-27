@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApp.Context;
+using WebApp.StorageModels;
 
 namespace WebApp.Repositories
 {
@@ -20,25 +21,28 @@ namespace WebApp.Repositories
         {
             return _culturalHubContext.Pictures
                 .Where(p => p.EventId == eventId)
+                .Select(x => new Picture(x.EventId, x.Description, x.Link))
                 .ToList();
         }
 
-        public Picture AddPicture(Picture p)
+        public List<PictureStorageModel> AddPicturesToEvent(List<PictureStorageModel> pictures)
         {
-            _culturalHubContext.Pictures.Add(p);
+            pictures.ForEach(p => p.Id = Guid.NewGuid().ToString());
+
+            _culturalHubContext.Pictures.AddRange(pictures);
 
             _culturalHubContext.SaveChanges();
 
-            return p;
+            return pictures;
         }
 
-        public Picture DeletePicture(Picture p)
+        public void DeleteAllPicturesFromEvent(string eventId)
         {
-            _culturalHubContext.Pictures.Remove(p);
+            var picturesDB = _culturalHubContext.Pictures.Where(p => p.EventId == eventId).ToList();
+
+            _culturalHubContext.Pictures.RemoveRange(picturesDB);
 
             _culturalHubContext.SaveChanges();
-
-            return p;
         }
     }
 }

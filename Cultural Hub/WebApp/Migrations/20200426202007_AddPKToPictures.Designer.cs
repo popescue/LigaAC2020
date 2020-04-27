@@ -10,8 +10,8 @@ using WebApp.Context;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(CulturalHubContext))]
-    [Migration("20200421191311_InitialDbMigration")]
-    partial class InitialDbMigration
+    [Migration("20200426202007_AddPKToPictures")]
+    partial class AddPKToPictures
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,13 +21,16 @@ namespace WebApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Domain.Event", b =>
+            modelBuilder.Entity("WebApp.StorageModels.EventStorageModel", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Audience")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("Deleted")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -37,6 +40,12 @@ namespace WebApp.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<string>("LocationAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LocationType")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("PublishDate")
                         .HasColumnType("datetime2");
@@ -55,22 +64,11 @@ namespace WebApp.Migrations
                     b.ToTable("Events");
                 });
 
-            modelBuilder.Entity("Domain.Location", b =>
+            modelBuilder.Entity("WebApp.StorageModels.PictureStorageModel", b =>
                 {
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("EventId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.ToTable("Locations");
-                });
-
-            modelBuilder.Entity("Domain.Picture", b =>
-                {
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -79,6 +77,8 @@ namespace WebApp.Migrations
 
                     b.Property<string>("Link")
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Pictures");
                 });

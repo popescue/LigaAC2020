@@ -34,7 +34,6 @@ namespace WebApp
             // register repositories
             services.AddScoped<IEventsRepository, EventsRepository>();
             services.AddScoped<IPicturesRepository, PicturesRepository>();
-            services.AddScoped<ILocationsRepository, LocationsRepository>();
 
             //register services
             services.AddScoped<IEventsService, EventsService>();

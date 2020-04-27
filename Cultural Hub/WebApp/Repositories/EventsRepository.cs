@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApp.Context;
 using WebApp.Models;
+using WebApp.StorageModels;
 
 namespace WebApp.Repositories
 {
@@ -17,48 +18,78 @@ namespace WebApp.Repositories
             _culturalHubContext = culturalHubContext;
         }
 
+        public Event GetEventById(string eventId)
+        {
+            var e = _culturalHubContext.Events.Find(eventId);
+            if (e.Deleted != null) return null;
+
+            return new Event(e.Id,
+                            e.Title,
+                            e.Description,
+                            new Location(e.LocationAddress, (LocationType)e.LocationType),
+                            e.StartsAt,
+                            e.Duration,
+                            (EventType)e.Type,
+                            (Audience)e.Audience,
+                            e.PublishDate,
+                            e.IsActive);
+        }
+
         public List<Event> GetEvents()
         {
             return _culturalHubContext.Events
-                .Select(e => 
-                
-                        new Event(e.Id, 
-                        e.Title, e.Description, 
-                        new Location(e.LocationAddress, (LocationType)e.LocationType), 
-                        e.StartsAt, e.Duration, (EventType)e.Type, (Audience)e.Audience, 
+                .Where(e => e.Deleted == null)
+                .Select(e =>
+                        new Event(e.Id,
+                        e.Title, e.Description,
+                        new Location(e.LocationAddress, (LocationType)e.LocationType),
+                        e.StartsAt, e.Duration, (EventType)e.Type, (Audience)e.Audience,
                         e.PublishDate, e.IsActive)
                 )
                 .ToList();
         }
 
-        public Event AddEvent(Event e)
+        public Event AddEvent(EventStorageModel e)
         {
-            //_culturalHubContext.Events.Add(e);
+            e.Id = Guid.NewGuid().ToString();
+            _culturalHubContext.Events.Add(e);
 
-            //_culturalHubContext.SaveChanges();
+            _culturalHubContext.SaveChanges();
 
-            return e;
+            return new Event(e.Id,
+                        e.Title, e.Description,
+                        new Location(e.LocationAddress, (LocationType)e.LocationType),
+                        e.StartsAt, e.Duration, (EventType)e.Type, (Audience)e.Audience,
+                        e.PublishDate, e.IsActive);
         }
 
-        public void EditEvent(Event e)
+        public void EditEvent(EventStorageModel e)
         {
-            //_culturalHubContext.Events.Update(e);
+            var eDB = _culturalHubContext.Events.Find(e.Id);
 
-            //_culturalHubContext.SaveChanges();
+            eDB.Title = e.Title;
+            eDB.StartsAt = e.StartsAt;
+            eDB.Description = e.Description;
+            eDB.LocationAddress = e.LocationAddress;
+            eDB.LocationType = e.LocationType;
+            eDB.Duration = e.Duration;
+            eDB.Audience = e.Audience;
+            eDB.Type = e.Type;
+            eDB.PublishDate = e.PublishDate;
+            eDB.IsActive = e.IsActive;
+
+            _culturalHubContext.Events.Update(eDB);
+
+            _culturalHubContext.SaveChanges();
         }
 
-        public void DeleteEvent(Event e)
+        public void DeleteEvent(EventStorageModel e)
         {
-            //_culturalHubContext.Events.Remove(e);
+            var eDB = _culturalHubContext.Events.Find(e.Id);
 
-            //_culturalHubContext.SaveChanges();
-        }
+            _culturalHubContext.Events.Remove(eDB);
 
-        public Event GetEventById(string eventId)
-        {
-            //var e = _culturalHubContext.Events.Find(eventId);
-
-            return null;
+            _culturalHubContext.SaveChanges();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model WebApp.Models.EventViewModel
+﻿@model WebApp.Models.CrudEventViewModel
 
 @{
     ViewData["Title"] = "EditEvent";
@@ -23,9 +23,9 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LocationAddress" class="control-label"></label>
-                <input asp-for="LocationAddress" class="form-control" required />
-                <span asp-validation-for="LocationAddress" class="text-danger"></span>
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" required />
+                <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LocationType" class="control-label"></label>

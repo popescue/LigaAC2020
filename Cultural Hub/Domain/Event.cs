@@ -22,8 +22,8 @@ namespace Domain
         public Event(string Id, string Title, string Description, Location Location, DateTime StartsAt,
                         TimeSpan Duration, EventType EventType, Audience Audience, DateTime PublishDate, bool isActive)
         {
-            if (string.IsNullOrWhiteSpace(Id))
-                throw new ArgumentException("Id cannot be null or blank", "Id");
+            //if (string.IsNullOrWhiteSpace(Id))
+                //throw new ArgumentException("Id cannot be null or blank", "Id");
 
             if (string.IsNullOrWhiteSpace(Title))
                 throw new ArgumentException("Title cannot be null or blank", "Title");

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebApp.StorageModels
 {
-    public class EventStorage
+    public class EventStorageModel
     {
         public string Id { get; set; }
         public string Title { get; set; }
@@ -18,5 +18,6 @@ namespace WebApp.StorageModels
         public int Audience { get; set; }
         public DateTime PublishDate { get; set; }
         public bool IsActive { get; set; }
+        public DateTime? Deleted { get; set; }
     }
 }
