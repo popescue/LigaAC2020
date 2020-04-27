@@ -52,6 +52,29 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
+        public IActionResult EditEvent(string eventId)
+        {
+            List<Audience> audience = Enum.GetValues(typeof(Audience)).Cast<Audience>().ToList();
+            List<EventType> eventType = Enum.GetValues(typeof(EventType)).Cast<EventType>().ToList();
+            List<LocationType> locationType = Enum.GetValues(typeof(LocationType)).Cast<LocationType>().ToList();
+
+            ViewBag.RequiredAudience = new SelectList(audience);
+            ViewBag.RequiredEventType = new SelectList(eventType);
+            ViewBag.RequiredLocationType = new SelectList(locationType);
+
+            var e = _eventsService.GetCrudEventViewModelById(eventId);
+
+            return View(e);
+        }
+
+        public IActionResult EditEvent(CrudEventViewModel crudEventViewModel)
+        {
+            _eventsService.EditEvent(crudEventViewModel);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
         public IActionResult DeleteEvent(string eventId)
         {
             var e = _eventsService.GetEventDetailsById(eventId);
