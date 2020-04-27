@@ -178,16 +178,11 @@ namespace WebApp.Services
             return CrudEventViewModel;
         }
 
-        public void DeleteEvent(CrudEventViewModel CrudEventViewModel)
-        {
-            //var e = _eventsRepository.GetEventById(CrudEventViewModel.Id);
-            //_eventsRepository.DeleteEvent(e);
+        public void DeleteEvent(string eventId)
+        { 
+            _eventsRepository.DeleteEvent(eventId);
 
-            //var location = _locationsRepository.GetLocationByEventId(CrudEventViewModel.Id);
-            //_locationsRepository.DeleteLocation(location);
-
-            //var pictures = _picturesRepository.GetPicturesForEvent(CrudEventViewModel.Id);
-            //pictures.ForEach(p => _picturesRepository.DeletePicture(p));
+            _picturesRepository.DeleteAllPicturesFromEvent(eventId);
         }
     }
 }

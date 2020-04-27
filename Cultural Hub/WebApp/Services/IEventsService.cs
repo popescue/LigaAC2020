@@ -18,6 +18,6 @@ namespace WebApp.Services
 
         CrudEventViewModel EditEvent(CrudEventViewModel CrudEventViewModel);
 
-        void DeleteEvent(CrudEventViewModel CrudEventViewModel);
+        void DeleteEvent(string eventId);
     }
 }

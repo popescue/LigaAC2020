@@ -17,6 +17,6 @@ namespace WebApp.Repositories
 
         void EditEvent(EventStorageModel e);
 
-        void DeleteEvent(EventStorageModel e);
+        void DeleteEvent(string eventId);
     }
 }

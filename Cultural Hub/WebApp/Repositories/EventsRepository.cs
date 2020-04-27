@@ -83,11 +83,12 @@ namespace WebApp.Repositories
             _culturalHubContext.SaveChanges();
         }
 
-        public void DeleteEvent(EventStorageModel e)
+        public void DeleteEvent(string eventId)
         {
-            var eDB = _culturalHubContext.Events.Find(e.Id);
+            var eDB = _culturalHubContext.Events.Find(eventId);
+            eDB.Deleted = DateTime.Now;
 
-            _culturalHubContext.Events.Remove(eDB);
+            _culturalHubContext.Events.Update(eDB);
 
             _culturalHubContext.SaveChanges();
         }

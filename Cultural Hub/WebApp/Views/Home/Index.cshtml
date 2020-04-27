@@ -50,7 +50,7 @@
                                 <li>@item.LocationAddress</li>
                             </ul>
                         </p>
-                        <button type="button" class="btn btn-light">@Html.ActionLink("Delete", "Delete", "Events", new { id = @item.Id.ToString() })</button>
+                        <button type="button" class="btn btn-light">@Html.ActionLink("Delete", "DeleteEvent", "Events", new { eventId = @item.Id.ToString() })</button>
 
                     </div>
                 </div>

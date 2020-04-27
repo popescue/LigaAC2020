@@ -46,19 +46,24 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult AddEvent(CrudEventViewModel crudEventViewModel)
         {
-            crudEventViewModel = _eventsService.AddEvent(crudEventViewModel);
+            _eventsService.AddEvent(crudEventViewModel);
 
             return RedirectToAction("Index", "Home");
         }
 
-        //[HttpDelete]
-        //public IActionResult DeleteEvent(string eventId)
-        //{
-        //    //var e = _eventsService.GetEvent(eventId);
+        [HttpGet]
+        public IActionResult DeleteEvent(string eventId)
+        {
+            var e = _eventsService.GetEventDetailsById(eventId);
 
-        //    //_eventsService.DeleteEvent(e);
+            return View(e);
+        }
 
-        //    //return View();
-        //}
+        public IActionResult Delete(string eventId)
+        {
+            _eventsService.DeleteEvent(eventId);
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
