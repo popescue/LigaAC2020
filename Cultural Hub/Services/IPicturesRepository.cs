@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApp.StorageModels;
 
 namespace WebApp.Repositories
 {
@@ -11,7 +10,7 @@ namespace WebApp.Repositories
     {
         List<Picture> GetPicturesForEvent(string eventId);
 
-        List<PictureStorageModel> AddPicturesToEvent(List<PictureStorageModel> pictures);
+        List<Picture> AddPicturesToEvent(List<Picture> pictures);
 
         void DeleteAllPicturesFromEvent(string eventId);
 

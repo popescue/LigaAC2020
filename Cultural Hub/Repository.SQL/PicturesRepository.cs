@@ -25,11 +25,16 @@ namespace WebApp.Repositories
                 .ToList();
         }
 
-        public List<PictureStorageModel> AddPicturesToEvent(List<PictureStorageModel> pictures)
+        public List<Picture> AddPicturesToEvent(List<Picture> pictures)
         {
-            pictures.ForEach(p => p.Id = Guid.NewGuid().ToString());
+            var picturesStorageModel = pictures.Select(p => new PictureStorageModel()
+            {
+                EventId = p.EventId,
+                Description = p.Description,
+                Link = p.Link
+            }).ToList();
 
-            _culturalHubContext.Pictures.AddRange(pictures);
+            _culturalHubContext.Pictures.AddRange(picturesStorageModel);
 
             _culturalHubContext.SaveChanges();
 
