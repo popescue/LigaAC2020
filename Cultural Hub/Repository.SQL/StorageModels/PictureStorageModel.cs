@@ -7,7 +7,7 @@ namespace WebApp.StorageModels
 {
     public class PictureStorageModel
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string EventId { get; set; }
 

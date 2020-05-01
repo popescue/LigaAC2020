@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApp.StorageModels;
+
 
 namespace WebApp.Repositories
 {
@@ -13,9 +13,9 @@ namespace WebApp.Repositories
 
         List<Event> GetEvents();
 
-        Event AddEvent(EventStorageModel e);
+        Event AddEvent(Event e);
 
-        void EditEvent(EventStorageModel e);
+        void EditEvent(Event e);
 
         void DeleteEvent(string eventId);
     }

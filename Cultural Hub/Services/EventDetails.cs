@@ -5,6 +5,7 @@ namespace Services
 {
     public class EventDetails
     {
+
         public string Id { get; set; }
 
         public string Title { get; set; }
@@ -16,9 +17,13 @@ namespace Services
         public string LocationType { get; set; }
 
         public DateTime StartsAt { get; set; }
+
         public TimeSpan Duration { get; set; }
+
         public string Type { get; set; }
+
         public string Audience { get; set; }
+
         public List<Uri> Pictures { get; set; }
     }
 }

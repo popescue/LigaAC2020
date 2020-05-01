@@ -6,17 +6,17 @@ using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApp.Models;
-using WebApp.Services;
+using Services;
 
 namespace WebApp.Controllers
 {
 
     public class EventsController : Controller
     {
-        private IEventsService _eventsService;
+        private EventsService _eventsService;
 
         public EventsController(
-            IEventsService eventsService
+            EventsService eventsService
             )
         {
             _eventsService = eventsService;
@@ -46,7 +46,28 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult AddEvent(CrudEventViewModel crudEventViewModel)
         {
-            _eventsService.AddEvent(crudEventViewModel);
+            crudEventViewModel.Id = Guid.NewGuid().ToString();
+            //crudEventViewModel.Pictures.Select(p => new Picture(p.Id = Guid.NewGuid().ToString());
+
+            //var pictures = new List<Picture>() {}
+
+            var crudEvent = new CrudEvent()           
+            {
+                Id = crudEventViewModel.Id,
+                Title = crudEventViewModel.Title,
+                Description = crudEventViewModel.Description,
+                Address = crudEventViewModel.Address,
+                LocationType = crudEventViewModel.LocationType,
+                Audience = crudEventViewModel.Audience,
+                Duration = (int)crudEventViewModel.Duration,
+                Type = crudEventViewModel.Type,
+                PublishDate = crudEventViewModel.PublishDate,
+                IsActive = crudEventViewModel.IsActive,
+                StartsAt = crudEventViewModel.StartsAt,
+                Pictures = crudEventViewModel.Pictures
+            };
+
+            _eventsService.AddEvent(crudEvent);
 
             return RedirectToAction("Index", "Home");
         }
@@ -69,7 +90,23 @@ namespace WebApp.Controllers
 
         public IActionResult EditEvent(CrudEventViewModel crudEventViewModel)
         {
-            _eventsService.EditEvent(crudEventViewModel);
+            var crudEvent = new CrudEvent()
+            {
+                Id = crudEventViewModel.Id,
+                Title = crudEventViewModel.Title,
+                Description = crudEventViewModel.Description,
+                Address = crudEventViewModel.Address,
+                LocationType = crudEventViewModel.LocationType,
+                Audience = crudEventViewModel.Audience,
+                Duration = (int)crudEventViewModel.Duration,
+                Type = crudEventViewModel.Type,
+                PublishDate = crudEventViewModel.PublishDate,
+                IsActive = crudEventViewModel.IsActive,
+                StartsAt = crudEventViewModel.StartsAt,
+                Pictures = crudEventViewModel.Pictures
+            };
+
+            _eventsService.EditEvent(crudEvent);
 
             return RedirectToAction("Index", "Home");
         }

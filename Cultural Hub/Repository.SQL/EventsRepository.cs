@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApp.Context;
-using WebApp.Models;
 using WebApp.StorageModels;
 
 namespace WebApp.Repositories
@@ -51,9 +50,34 @@ namespace WebApp.Repositories
 
         public Event AddEvent(Event e)
         {
+            var eventStorageModel = new EventStorageModel()
+            {
+                Id = e.Id,
+                Title = e.Title,
+                StartsAt = e.StartsAt,
+                Description = e.Description,
+                Duration = e.Duration,
+                Audience = (int)e.Audience,
+                Type = (int)e.Type,
+                PublishDate = e.PublishDate,
+                IsActive = e.IsActive,
+                LocationAddress = e.Location.Address,
+                LocationType = (int)e.Location.Type
+            };
 
-            e.Id = Guid.NewGuid().ToString();
+            _culturalHubContext.Events.Add(eventStorageModel);
 
+            _culturalHubContext.SaveChanges();
+
+            return new Event(e.Id,
+                        e.Title, e.Description,
+                        new Location(e.Location.Address, e.Location.Type),
+                        e.StartsAt, e.Duration, (EventType)e.Type, (Audience)e.Audience,
+                        e.PublishDate, e.IsActive);
+        }
+
+        public void EditEvent(Event e)
+        {
             var eventStorageModel = new EventStorageModel()
             {
                 Title = e.Title,
@@ -67,31 +91,19 @@ namespace WebApp.Repositories
                 LocationAddress = e.Location.Address,
                 LocationType = (int)e.Location.Type
             };
-            _culturalHubContext.Events.Add(e);
 
-            _culturalHubContext.SaveChanges();
+            var eDB = _culturalHubContext.Events.Find(eventStorageModel.Id);
 
-            return new Event(e.Id,
-                        e.Title, e.Description,
-                        new Location(e.LocationAddress, (LocationType)e.LocationType),
-                        e.StartsAt, e.Duration, (EventType)e.Type, (Audience)e.Audience,
-                        e.PublishDate, e.IsActive);
-        }
-
-        public void EditEvent(EventStorageModel e)
-        {
-            var eDB = _culturalHubContext.Events.Find(e.Id);
-
-            eDB.Title = e.Title;
-            eDB.StartsAt = e.StartsAt;
-            eDB.Description = e.Description;
-            eDB.LocationAddress = e.LocationAddress;
-            eDB.LocationType = e.LocationType;
-            eDB.Duration = e.Duration;
-            eDB.Audience = e.Audience;
-            eDB.Type = e.Type;
-            eDB.PublishDate = e.PublishDate;
-            eDB.IsActive = e.IsActive;
+            eDB.Title = eventStorageModel.Title;
+            eDB.StartsAt = eventStorageModel.StartsAt;
+            eDB.Description = eventStorageModel.Description;
+            eDB.LocationAddress = eventStorageModel.LocationAddress;
+            eDB.LocationType = eventStorageModel.LocationType;
+            eDB.Duration = eventStorageModel.Duration;
+            eDB.Audience = eventStorageModel.Audience;
+            eDB.Type = eventStorageModel.Type;
+            eDB.PublishDate = eventStorageModel.PublishDate;
+            eDB.IsActive = eventStorageModel.IsActive;
 
             _culturalHubContext.Events.Update(eDB);
 
