@@ -5,19 +5,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Services;
 using WebApp.Models;
-using WebApp.Services;
 
 namespace WebApp.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IEventsService _eventsService;
+        private readonly EventsService _eventsService;
 
         public HomeController(
             ILogger<HomeController> logger,
-            IEventsService eventsService
+            EventsService eventsService
             )
         {
             _logger = logger;

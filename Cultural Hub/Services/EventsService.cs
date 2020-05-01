@@ -4,12 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApp.Repositories;
-using WebApp.Models;
-using WebApp.StorageModels;
 
-namespace WebApp.Services
+namespace Services
 {
-    public class EventsService : IEventsService
+    public class EventsService
     {
         private IEventsRepository _eventsRepository;
         private IPicturesRepository _picturesRepository;
@@ -23,11 +21,11 @@ namespace WebApp.Services
             _picturesRepository = picturesRepository;
         }
 
-        public List<EventDetailsViewModel> GetEventDetailsList()
+        public List<EventDetails> GetEventDetailsList()
         {
             var eventDetailsViewModels = _eventsRepository.GetEvents().Select(e =>
             {
-                var eventDetailsViewModel = new EventDetailsViewModel()
+                var eventDetailsViewModel = new EventDetails()
                 {
                     Id = e.Id,
                     Title = e.Title,
@@ -47,11 +45,11 @@ namespace WebApp.Services
             return eventDetailsViewModels;
         }
 
-        public List<EventShortInfoViewModel> GetEventShortInfoList()
+        public List<EventShortInfo> GetEventShortInfoList()
         {
             var eventShortInfoViewModels = _eventsRepository.GetEvents().Select(e =>
             {
-                var eventShortInfoViewModel = new EventShortInfoViewModel()
+                var eventShortInfoViewModel = new EventShortInfo()
                 {
                     Id = e.Id,
                     Title = e.Title,
@@ -66,11 +64,11 @@ namespace WebApp.Services
             return eventShortInfoViewModels;
         }
 
-        public CrudEventViewModel GetCrudEventViewModelById(string eventId)
+        public CrudEvent GetCrudEventViewModelById(string eventId)
         {
             var e = _eventsRepository.GetEventById(eventId);
 
-            var crudEventViewModel = new CrudEventViewModel()
+            var crudEventViewModel = new CrudEvent()
             {
                 Id = e.Id,
                 Title = e.Title,
@@ -89,11 +87,11 @@ namespace WebApp.Services
             return crudEventViewModel;
         }
 
-        public EventDetailsViewModel GetEventDetailsById(string eventId)
+        public EventDetails GetEventDetailsById(string eventId)
         {
             var e = _eventsRepository.GetEventById(eventId);
 
-            var eventDetailsViewModel = new EventDetailsViewModel()
+            var eventDetailsViewModel = new EventDetails()
             {
                 Id = e.Id,
                 Title = e.Title,
@@ -110,7 +108,7 @@ namespace WebApp.Services
             return eventDetailsViewModel;
         }
 
-        public CrudEventViewModel AddEvent(CrudEventViewModel crudEventViewModel)
+        public CrudEvent AddEvent(CrudEvent crudEventViewModel)
         {
             // Create Event 
             var e = new Event(crudEventViewModel.Id,
@@ -124,21 +122,9 @@ namespace WebApp.Services
                             crudEventViewModel.PublishDate,
                             crudEventViewModel.IsActive);
 
-            var eventStorageModel = new EventStorageModel()
-            {
-                Title = e.Title,
-                StartsAt = e.StartsAt,
-                Description = e.Description,
-                Duration = e.Duration,
-                Audience = (int)e.Audience,
-                Type = (int)e.Type,
-                PublishDate = e.PublishDate,
-                IsActive = e.IsActive,
-                LocationAddress = e.Location.Address,
-                LocationType = (int)e.Location.Type
-            };
+            
 
-            var eFromDB = _eventsRepository.AddEvent(eventStorageModel);
+            var eFromDB = _eventsRepository.AddEvent(e);
             crudEventViewModel.Id = eFromDB.Id;
 
             // Create Pictures 
@@ -159,7 +145,7 @@ namespace WebApp.Services
         }
 
 
-        public void EditEvent(CrudEventViewModel crudEventViewModel)
+        public void EditEvent(CrudEvent crudEventViewModel)
         {
             // Update Event 
             var e = new Event(crudEventViewModel.Id,

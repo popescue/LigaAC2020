@@ -49,9 +49,24 @@ namespace WebApp.Repositories
                 .ToList();
         }
 
-        public Event AddEvent(EventStorageModel e)
+        public Event AddEvent(Event e)
         {
+
             e.Id = Guid.NewGuid().ToString();
+
+            var eventStorageModel = new EventStorageModel()
+            {
+                Title = e.Title,
+                StartsAt = e.StartsAt,
+                Description = e.Description,
+                Duration = e.Duration,
+                Audience = (int)e.Audience,
+                Type = (int)e.Type,
+                PublishDate = e.PublishDate,
+                IsActive = e.IsActive,
+                LocationAddress = e.Location.Address,
+                LocationType = (int)e.Location.Type
+            };
             _culturalHubContext.Events.Add(e);
 
             _culturalHubContext.SaveChanges();
