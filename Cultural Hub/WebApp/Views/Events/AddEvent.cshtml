@@ -1,25 +1,25 @@
-﻿@model WebApp.Models.EventEditViewModel
+﻿@model WebApp.Models.EventDetailsViewModel
 
 @{
-    ViewData["Title"] = "Edit Event";
+    ViewData["Title"] = "AddEvent";
 }
 
-<h1>Edit</h1>
+<h1>Eveniment Nou</h1>
 
-<h4>Edit Event</h4>
+<h4>Detalii Eveniment</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="AddEvent" method="post" id="add_form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
+                <input asp-for="Id" class="form-control" required />
                 <span asp-validation-for="Id" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
+                <input asp-for="Title" class="form-control" required />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -28,65 +28,62 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
+                <label asp-for="LocationAddress" class="control-label"></label>
+                <input asp-for="LocationAddress" class="form-control" required />
+                <span asp-validation-for="LocationAddress" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LocationType" class="control-label"></label>
-                @Html.DropDownList("LocationType", (SelectList)ViewBag.RequiredLocationType, new { @class = "form-control" })
+                @*@Html.DropDownList("Tip Locatie", , new {@class = "form-control" })*@
+                <select asp-for="LocationType" class="form-control" required>
+                    <option selected disabled value="">...</option>
+                    <option>Interior</option>
+                    <option>Exterior</option>
+                </select>
                 <span asp-validation-for="LocationType" class="text-danger"></span>
             </div>
-
             <div class="form-group">
                 <label asp-for="StartsAt" class="control-label"></label>
-                <input asp-for="StartsAt" class="form-control" />
+                <input asp-for="StartsAt" class="form-control" required />
                 <span asp-validation-for="StartsAt" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Duration" class="control-label"></label>
-                <input asp-for="Duration" class="form-control" />
+                <input asp-for="Duration" class="form-control" required />
                 <span asp-validation-for="Duration" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Type" class="control-label"></label>
-                @Html.DropDownList("Type", (SelectList)ViewBag.RequiredEventType, new { @class = "form-control" })
+                <input asp-for="Type" class="form-control" required />
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Audience" class="control-label"></label>
-                @Html.DropDownList("Audience", (SelectList)ViewBag.RequiredAudience, new { @class = "form-control" })
+                <select asp-for="Audience" class="form-control">
+                    <option selected disabled value="">...</option>
+                    <option>Copii</option>
+                    <option>Audienta Generala</option>
+                </select>
                 <span asp-validation-for="Audience" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PublishDate" class="control-label"></label>
-                <input asp-for="PublishDate" class="form-control" />
-                <span asp-validation-for="PublishDate" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-                </label>
-            </div>
-            <div class="form-group">
                 <label asp-for="Pictures" class="control-label"></label>
-                <input asp-for="Pictures" class="form-control" />
-                <input asp-for="Pictures" class="form-control" />
-                <input asp-for="Pictures" class="form-control" />
+                <input asp-for="Pictures" class="form-control" placeholder="Introduceti link-ul catre imagine" />
+
                 <span asp-validation-for="Pictures" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Update" class="btn btn-primary" />
-                <button asp-controller="Home" asp-action="Index" class="btn-dark">Cancel</button>
+                <input type="submit" value="Creare Eveniment" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    @Html.ActionLink("Back to list", "Index", "Home")
+    <a asp-controller="Home" asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+   
 }

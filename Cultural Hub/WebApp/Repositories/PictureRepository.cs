@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApp.Models;
 
 namespace WebApp.Repositories
 {
@@ -19,55 +18,49 @@ namespace WebApp.Repositories
                 {
                     EventId = "123abc",
                     Description = "description pic1",
-                    Link = new Uri("https://www.rfi.ro/sites/default/files/articol/foto_caini_mutanti_obtinuti_savantii_chinezi_cum_arata_cateii_culturisti_0.jpg")
+                    Link = new Uri("https://image.stirileprotv.ro/media/images/680xX/Apr2010/60415012.jpg")
                 },
                 new Picture
                 {
                     EventId = "123abc",
                     Description = "description pic2",
-                    Link = new Uri("https://images.unsplash.com/photo-1507146426996-ef05306b995a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80")
+                    Link = new Uri("https://s3.publi24.ro/vertical-ro-f646bd5a/extralarge/20190106/1426/aa23d5ae00e464c48f9d6bb01a05c3fd.jpg")
                 },
                 new Picture
                 {
                     EventId = "123abc",
-                    Description = "description pic2",
-                    Link = new Uri("https://mcdn.wallpapersafari.com/medium/67/54/i4SqIP.jpg")
+                    Description = "description pic3",
+                    Link = new Uri("https://i.ytimg.com/vi/Wz01h5lRFHM/maxresdefault.jpg")
                 },
                 new Picture
                 {
                     EventId = "345dfr",
                     Description = "description pic1",
-                    Link = new Uri("https://www.ecopetit.cat/wpic/mpic/4-47690_funny-cat-desktop-wallpapers-1366768-sen-sus-desktop.jpg")
+                    Link = new Uri("https://www.animalepierdute.ro/wp-content/uploads/2019/07/pisica-scottish-fold-699x414.jpg")
                 },
                 new Picture
                 {
                     EventId = "345dfr",
                     Description = "description pic2",
-                    Link = new Uri("http://wallpaperget.com/images/cat-hd-wallpaper-1.jpg")
+                    Link = new Uri("https://i.ytimg.com/vi/Wz01h5lRFHM/maxresdefault.jpg")
                 },
                 new Picture
                 {
                     EventId = "345dfr",
-                    Description = "description pic2",
-                    Link = new Uri("https://wallpaperplay.com/walls/full/2/d/4/206304.jpg")
-                },
-                new Picture
-                {
-                    EventId = "987thu",
-                    Description = "description pic1",
-                    Link = new Uri("https://img1.goodfon.com/wallpaper/nbig/4/7b/oboi-ot-lolita777-kozy-gornye.jpg")
+                    Description = "description pic3",
+                    Link = new Uri("https://storage0.dms.mpinteractiv.ro/media/401/721/10072/16015503/1/pisici.jpg")
                 },
                 new Picture
                 {
                     EventId = "987thu",
                     Description = "description pic2",
-                    Link = new Uri("https://mcdn.wallpapersafari.com/medium/61/86/1036f5.jpg")
+                    Link = new Uri("https://agrobiznes.md/wp-content/uploads/2013/02/capre.jpg")
                 },
                 new Picture
                 {
                     EventId = "987thu",
-                    Description = "description pic2",
-                    Link = new Uri("https://img5.goodfon.com/wallpaper/nbig/f/32/koziol-morda-roga-boke.jpg")
+                    Description = "description pic3",
+                    Link = new Uri("https://evz.ro/wp-content/uploads/2016/01/a-apasat-pe-sarpe-si-i-au-iesit-din-stomac-doua-capre-intregi-vi.jpg")
                 }
             };
         }
@@ -76,28 +69,5 @@ namespace WebApp.Repositories
         {
             return _pictures.Where(e => e.EventId == id).ToList();
         }
-
-        public static void CreateEvent(EventCreateModel _event)
-        {
-
-            foreach (var item in _event.Pictures)
-            {
-                _pictures.Add(new Picture
-                {
-                    EventId = _event.Id,
-                    Description = _event.Description,
-                    Link = item
-                });
-            }
-        }
-        public static Picture GetPictureById(string id)
-        {
-            return _pictures.FirstOrDefault(_ => _.EventId == id);
-        }
-        public static void DeletePicture(Picture _pic)
-        {
-            _pictures.Remove(_pic);
-        }
     }
 }
-
