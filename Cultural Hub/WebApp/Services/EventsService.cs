@@ -57,6 +57,59 @@ namespace WebApp.Services
         {
             return GetEventDetails().Find(e => e.Id == id);
         }
+
+        public void CreateEvent(EventCreateModel _event)
+        {
+
+            EventRepository.CreateEvent(_event);
+            PictureRepository.CreateEvent(_event);
+        }
+
+        public void DeleteEvent(string id)
+        {
+
+            var _event = EventRepository.GetEventById(id);
+
+            EventRepository.DeleteEvent(_event);
+
+            var _picture = PictureRepository.GetPictureById(id);
+
+            PictureRepository.DeletePicture(_picture);
+        }
+
+        public static Event GetEventById(string id)
+        {
+            return EventRepository.GetEventById(id);
+        }
+
+        public static Picture GetPictureById(string id)
+        {
+            return PictureRepository.GetPictureById(id);
+        }
+
+        public static EventEditViewModel GetEventAndPictures(string id)
+        {
+            Event _event = GetEventById(id);
+            List<Picture> _pictures = PictureRepository.GetPicturesForEvent(id);
+
+            EventEditViewModel eventEditViewModel = new EventEditViewModel()
+            {
+                Id = _event.Id,
+                Title = _event.Title,
+                Description = _event.Description,
+                Address = _event.Location.Address,
+                LocationType = _event.Location.Type,
+                StartsAt = _event.StartsAt,
+                Duration = _event.Duration.Hours,
+                Type = _event.Type,
+                Audience = _event.Audience,
+                PublishDate = _event.PublishDate,
+                IsActive = _event.IsActive,
+                Pictures = _pictures.Select(p => p.Link).ToList()
+            };
+
+            return eventEditViewModel;
+        }
     }
 }
 

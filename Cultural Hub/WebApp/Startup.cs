@@ -9,7 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WebApp.Context;
+using WebApp.Data;
+using Microsoft.AspNetCore.Http;
+
 
 namespace WebApp
 {
