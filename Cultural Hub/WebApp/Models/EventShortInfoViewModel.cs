@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
-    public class EventListViewModel
+    public class EventShortInfoViewModel
     {
         public string Id { get; set; }
 

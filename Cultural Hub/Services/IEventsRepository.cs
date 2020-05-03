@@ -4,15 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace WebApp.Repositories
 {
-    interface IEventRepository
+    public interface IEventsRepository
     {
-        List<Event> GetEvents();
-        void Add(Event e);
-        void Update(Event e);
-        void Delete(string Id);
-        Event GetEventDetailsById(string Id);
+        Event GetEventById(string eventId);
 
+        List<Event> GetEvents();
+
+        Event AddEvent(Event e);
+
+        void EditEvent(Event e);
+
+        void DeleteEvent(string eventId);
     }
 }

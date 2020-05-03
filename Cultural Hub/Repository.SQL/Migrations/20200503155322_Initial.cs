@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace WebApp.Migrations
+namespace Repository.SQL.Migrations
 {
-    public partial class InitialDbMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,12 +14,15 @@ namespace WebApp.Migrations
                     Id = table.Column<string>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
+                    LocationAddress = table.Column<string>(nullable: true),
+                    LocationType = table.Column<int>(nullable: false),
                     StartsAt = table.Column<DateTime>(nullable: false),
                     Duration = table.Column<TimeSpan>(nullable: false),
                     Type = table.Column<int>(nullable: false),
                     Audience = table.Column<int>(nullable: false),
                     PublishDate = table.Column<DateTime>(nullable: false),
-                    IsActive = table.Column<bool>(nullable: false)
+                    IsActive = table.Column<bool>(nullable: false),
+                    Deleted = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -27,27 +30,19 @@ namespace WebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Locations",
-                columns: table => new
-                {
-                    Address = table.Column<string>(nullable: true),
-                    Type = table.Column<int>(nullable: false),
-                    EventId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Pictures",
                 columns: table => new
                 {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EventId = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Link = table.Column<string>(nullable: true),
-                    EventId = table.Column<string>(nullable: true)
+                    Deleted = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_Pictures", x => x.Id);
                 });
         }
 
@@ -55,9 +50,6 @@ namespace WebApp.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Events");
-
-            migrationBuilder.DropTable(
-                name: "Locations");
 
             migrationBuilder.DropTable(
                 name: "Pictures");
