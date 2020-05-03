@@ -6,17 +6,17 @@ using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApp.Models;
-using Services;
+using Services.Client;
 
 namespace WebApp.Controllers
 {
 
     public class EventsController : Controller
     {
-        private EventsService _eventsService;
+        private ClientEventsService _eventsService;
 
         public EventsController(
-            EventsService eventsService
+            ClientEventsService eventsService
             )
         {
             _eventsService = eventsService;
@@ -44,27 +44,28 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddEvent(CrudEventViewModel crudEventViewModel)
+        public IActionResult AddEvent(CrudEvent _crudEvent)
         {
-            crudEventViewModel.Id = Guid.NewGuid().ToString();
+            _crudEvent.Id.IdValue = Guid.NewGuid().ToString();
             //crudEventViewModel.Pictures.Select(p => new Picture(p.Id = Guid.NewGuid().ToString());
 
             //var pictures = new List<Picture>() {}
 
             var crudEvent = new CrudEvent()           
             {
-                Id = crudEventViewModel.Id,
-                Title = crudEventViewModel.Title,
-                Description = crudEventViewModel.Description,
-                Address = crudEventViewModel.Address,
-                LocationType = crudEventViewModel.LocationType,
-                Audience = crudEventViewModel.Audience,
-                Duration = (int)crudEventViewModel.Duration,
-                Type = crudEventViewModel.Type,
-                PublishDate = crudEventViewModel.PublishDate,
-                IsActive = crudEventViewModel.IsActive,
-                StartsAt = crudEventViewModel.StartsAt,
-                Pictures = crudEventViewModel.Pictures
+                Id = _crudEvent.Id,
+                Title = _crudEvent.Title,
+                Description = _crudEvent.Description,
+                Address = _crudEvent.Address,
+                LocationType = _crudEvent.LocationType,
+                Audience = _crudEvent.Audience,
+                Duration = _crudEvent.Duration,
+                Type = _crudEvent.Type,
+                PublishDate = _crudEvent.PublishDate,
+                IsActive = _crudEvent.IsActive,
+                StartsAt = _crudEvent.StartsAt,
+                Pictures = _crudEvent.Pictures,
+                IsPublished = _crudEvent.IsPublished
             };
 
             _eventsService.AddEvent(crudEvent);
@@ -88,7 +89,7 @@ namespace WebApp.Controllers
             return View(e);
         }
 
-        public IActionResult EditEvent(CrudEventViewModel crudEventViewModel)
+        public IActionResult EditEvent(CrudEvent crudEventViewModel)
         {
             var crudEvent = new CrudEvent()
             {
@@ -98,7 +99,7 @@ namespace WebApp.Controllers
                 Address = crudEventViewModel.Address,
                 LocationType = crudEventViewModel.LocationType,
                 Audience = crudEventViewModel.Audience,
-                Duration = (int)crudEventViewModel.Duration,
+                Duration = crudEventViewModel.Duration,
                 Type = crudEventViewModel.Type,
                 PublishDate = crudEventViewModel.PublishDate,
                 IsActive = crudEventViewModel.IsActive,

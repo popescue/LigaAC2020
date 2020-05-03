@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Services;
+using Services.Client;
 using WebApp.Models;
 
 
@@ -14,11 +14,11 @@ namespace WebApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly EventsService _eventsService;
+        private readonly ClientEventsService _eventsService;
 
         public HomeController(
             ILogger<HomeController> logger,
-            EventsService eventsService
+            ClientEventsService eventsService
             )
         {
             _logger = logger;
@@ -27,7 +27,12 @@ namespace WebApp.Controllers
 
         public IActionResult Index()
         {
-            return View(_eventsService.GetEventShortInfoList());
+            return View(_eventsService.GetClientEventShortInfoList());
+        }
+
+        public IActionResult Index2()
+        {
+            return View(_eventsService.GetClientEventShortInfoList());
         }
 
         public IActionResult Privacy()
