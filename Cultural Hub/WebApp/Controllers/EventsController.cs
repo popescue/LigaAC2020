@@ -2,26 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApp.Models;
 using WebApp.Services;
+using Domain;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApp.Controllers
 {
-
+   
     public class EventsController : Controller
     {
-        private IEventsService _eventsService;
+        private EventsService _eventsService;
 
-        public EventsController(
-            IEventsService eventsService
-            )
+        public EventsController()
         {
-            _eventsService = eventsService;
+            _eventsService = new EventsService();
         }
-
+        
         [HttpGet("{id}")]
         public IActionResult Details(string id)
         {
@@ -29,9 +28,11 @@ namespace WebApp.Controllers
             return View(_eventsService.GetEventDetailsById(id));
         }
 
-        [HttpGet]
-        public IActionResult AddEvent()
+        //GET
+        public IActionResult Create()
         {
+
+
             List<Audience> audience = Enum.GetValues(typeof(Audience)).Cast<Audience>().ToList();
             List<EventType> eventType = Enum.GetValues(typeof(EventType)).Cast<EventType>().ToList();
             List<LocationType> locationType = Enum.GetValues(typeof(LocationType)).Cast<LocationType>().ToList();
@@ -43,17 +44,53 @@ namespace WebApp.Controllers
             return View();
         }
 
+        // POST
         [HttpPost]
-        public IActionResult AddEvent(CrudEventViewModel crudEventViewModel)
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(EventCreateModel newEvent)
         {
-            _eventsService.AddEvent(crudEventViewModel);
+            try
+            {
+                _eventsService.CreateEvent(newEvent);
 
-            return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
+            }
+            catch
+            {
+                return View();
+            }
         }
 
-        [HttpGet]
-        public IActionResult EditEvent(string eventId)
+        //GET
+        public ActionResult Delete(string id)
         {
+            var _event = EventsService.GetEventById(id);
+            return View(_event);
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(string id, IFormCollection collection)
+        {
+            try
+            {
+                _eventsService.DeleteEvent(id);
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+
+        [HttpGet]
+        public IActionResult Edit(string id)
+        {
+
+
             List<Audience> audience = Enum.GetValues(typeof(Audience)).Cast<Audience>().ToList();
             List<EventType> eventType = Enum.GetValues(typeof(EventType)).Cast<EventType>().ToList();
             List<LocationType> locationType = Enum.GetValues(typeof(LocationType)).Cast<LocationType>().ToList();
@@ -62,31 +99,40 @@ namespace WebApp.Controllers
             ViewBag.RequiredEventType = new SelectList(eventType);
             ViewBag.RequiredLocationType = new SelectList(locationType);
 
-            var e = _eventsService.GetCrudEventViewModelById(eventId);
+            EventEditViewModel eventEditViewModel = EventsService.GetEventAndPictures(id);
 
-            return View(e);
+            return View(eventEditViewModel);
         }
 
-        public IActionResult EditEvent(CrudEventViewModel crudEventViewModel)
+        // POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(EventEditViewModel updateEvent)
         {
-            _eventsService.EditEvent(crudEventViewModel);
+            try
+            {
+                Event _event = EventsService.GetEventById(updateEvent.Id);
 
-            return RedirectToAction("Index", "Home");
+                /*_event.Title=updateEvent.Id,
+                _event.Description=updateEvent.Description,
+                _event.Location.Address=updateEvent.Address,
+                _event.Location.Type=updateEvent.LocationType,
+                _event.StartsAt=updateEvent.StartsAt,
+                _event.Duration=updateEvent.Duration,
+                _event.Type=updateEvent.Type,
+                _event.Audience=updateEvent.Audience,
+                _event.PublishDate=updateEvent.PublishDate,
+                _event.IsActive=updateEvent.IsActive));*/
+
+                _eventsService.CreateEvent(updateEvent);
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch
+            {
+                return View();
+            }
         }
 
-        [HttpGet]
-        public IActionResult DeleteEvent(string eventId)
-        {
-            var e = _eventsService.GetEventDetailsById(eventId);
-
-            return View(e);
-        }
-
-        public IActionResult Delete(string eventId)
-        {
-            _eventsService.DeleteEvent(eventId);
-
-            return RedirectToAction("Index", "Home");
-        }
     }
 }

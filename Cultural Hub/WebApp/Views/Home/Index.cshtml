@@ -1,4 +1,4 @@
-﻿@model List<EventShortInfoViewModel>
+﻿@model List<EventListViewModel>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -33,15 +33,16 @@
 
                         </div>
 
-                        <a class="carousel-control-prev" href="#carousel-@item.Id.ToString()" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carousel-@item.Id.ToString()" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
+
+                            <a class="carousel-control-prev" href="#carousel-@item.Id.ToString()" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carousel-@item.Id.ToString()" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
                     <div class="card-body">
                         <h5 class="card-title"><a class="nav-link text-dark" asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="@item.Id">@item.Title</a></h5>
                         <p class="card-text">
@@ -50,8 +51,16 @@
                                 <li>@item.LocationAddress</li>
                             </ul>
                         </p>
-                        <button type="button" class="btn btn-light">@Html.ActionLink("Delete", "DeleteEvent", "Events", new { eventId = @item.Id.ToString() })</button>
-
+                        <table>
+                            <tr>
+                                <td>
+                                    <button type="button" class="btn btn-light">@Html.ActionLink("Delete", "Delete", "Events", new { id = @item.Id.ToString() })</button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-warning">@Html.ActionLink("Edit", "Edit", "Events", new { id = @item.Id.ToString() })</button>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>

@@ -13,20 +13,17 @@ namespace WebApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IEventsService _eventsService;
+        private readonly EventsService _eventsService;
 
-        public HomeController(
-            ILogger<HomeController> logger,
-            IEventsService eventsService
-            )
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _eventsService = eventsService;
+            _eventsService = new EventsService();
         }
 
         public IActionResult Index()
-        {
-            return View(_eventsService.GetEventShortInfoList());
+        {            
+            return View(_eventsService.GetEventList());
         }
 
         public IActionResult Privacy()
