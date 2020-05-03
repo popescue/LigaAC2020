@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
+using WebApp.StorageModels;
 
 namespace WebApp.Context
 {
@@ -7,20 +8,17 @@ namespace WebApp.Context
     {
         public CulturalHubContext(DbContextOptions<CulturalHubContext> options) : base(options)
         {
-      
+
         }
 
-        public DbSet<Event> Events { get; set; }
-        public DbSet<Picture> Pictures { get; set; }
-        public DbSet<Location> Locations { get; set; }
+        public DbSet<EventStorageModel> Events { get; set; }
+        public DbSet<PictureStorageModel> Pictures { get; set; }
+  
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Event>()
-                .Ignore("Location")
-                .HasKey(e => e.Id);
-            modelBuilder.Entity<Picture>().HasNoKey();
-            modelBuilder.Entity<Location>().HasNoKey();
+            modelBuilder.Entity<EventStorageModel>().HasKey(e => e.Id);
+            modelBuilder.Entity<PictureStorageModel>().HasKey(p => p.Id);
         }
     }
 }

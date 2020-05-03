@@ -7,24 +7,23 @@ namespace Domain
 {
     public class Event
     {
-        public string Id { get; set;  }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public Location Location { get; set; }
-        public DateTime StartsAt { get; set; }
-        public TimeSpan Duration { get; set; }
-        public EventType Type { get; set; }
-        public Audience Audience { get; set; }
-        public DateTime PublishDate { get; set; }
-        public bool IsActive { get; set; }
+        public string Id { get; }
+        public string Title { get; }
+        public string Description { get; }
+        public Location Location { get; }
+        public DateTime StartsAt { get; }
+        public TimeSpan Duration { get; }
+        public EventType Type { get; }
+        public Audience Audience { get; }
+        public DateTime PublishDate { get; }
+        public bool IsActive { get; }
 
-        public Event() { }
 
         public Event(string Id, string Title, string Description, Location Location, DateTime StartsAt,
                         TimeSpan Duration, EventType EventType, Audience Audience, DateTime PublishDate, bool isActive)
         {
-            if (string.IsNullOrWhiteSpace(Id))
-                throw new ArgumentException("Id cannot be null or blank", "Id");
+            //if (string.IsNullOrWhiteSpace(Id))
+                //throw new ArgumentException("Id cannot be null or blank", "Id");
 
             if (string.IsNullOrWhiteSpace(Title))
                 throw new ArgumentException("Title cannot be null or blank", "Title");

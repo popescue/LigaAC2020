@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApp.Context;
 
 namespace WebApp.Migrations
 {
     [DbContext(typeof(CulturalHubContext))]
-    partial class CulturalHubContextModelSnapshot : ModelSnapshot
+    [Migration("20200426195209_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,7 +29,7 @@ namespace WebApp.Migrations
                     b.Property<int>("Audience")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("Deleted")
+                    b.Property<DateTime>("Deleted")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -64,12 +66,6 @@ namespace WebApp.Migrations
 
             modelBuilder.Entity("WebApp.StorageModels.PictureStorageModel", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("Deleted")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -78,8 +74,6 @@ namespace WebApp.Migrations
 
                     b.Property<string>("Link")
                         .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
 
                     b.ToTable("Pictures");
                 });
