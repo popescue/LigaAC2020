@@ -1,18 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Domain
 {
-    public class Picture
+    /*public class Picture
     {
-        public string EventId { get; }
-        public string Description { get; }
         public Uri Link { get; }
 
-        public Picture(string eventId, string description, Uri link)
+        public Picture(Uri link)
         {
-            EventId = eventId;
-            Description = description;
             Link = link;
+        }
+    }*/
+
+    public class PictureCollectin
+    {
+        private readonly List<Uri> picturesList;
+
+        public string EventId { get; }
+        public IReadOnlyList<Uri> PicturesList => picturesList;
+        public void AddPicture(Uri link)
+        {
+            picturesList.Add(link);
+        }
+        public void RemovePicture(Uri link)
+        {
+            picturesList.Remove(link);
         }
     }
 }

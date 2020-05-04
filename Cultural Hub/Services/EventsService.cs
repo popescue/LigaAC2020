@@ -24,9 +24,9 @@ namespace Services
 
         public List<EventDetails> GetEventDetailsList()
         {
-            var eventDetailsViewModels = _eventsRepository.GetEvents().Select(e =>
+            var eventDetailsList = _eventsRepository.GetEvents().Select(e =>
             {
-                var eventDetailsViewModel = new EventDetails()
+                var eventDetails = new EventDetails()
                 {
                     Id = e.Id,
                     Title = e.Title,
@@ -40,17 +40,17 @@ namespace Services
                     Pictures = _picturesRepository.GetPicturesForEvent(e.Id).Select(p => p.Link).ToList()
                 };
 
-                return eventDetailsViewModel;
+                return eventDetails;
             }).ToList();
 
-            return eventDetailsViewModels;
+            return eventDetailsList;
         }
 
         public List<EventShortInfo> GetEventShortInfoList()
         {
-            var eventShortInfoViewModels = _eventsRepository.GetEvents().Select(e =>
+            var eventShortInfoList = _eventsRepository.GetEvents().Select(e =>
             {
-                var eventShortInfoViewModel = new EventShortInfo()
+                var eventShortInfo = new EventShortInfo()
                 {
                     Id = e.Id,
                     Title = e.Title,
@@ -59,17 +59,17 @@ namespace Services
                     Pictures = _picturesRepository.GetPicturesForEvent(e.Id).Select(p => p.Link).ToList()
                 };
 
-                return eventShortInfoViewModel;
+                return eventShortInfo;
             }).ToList();
 
-            return eventShortInfoViewModels;
+            return eventShortInfoList;
         }
 
         public CrudEvent GetCrudEventViewModelById(string eventId)
         {
             var e = _eventsRepository.GetEventById(eventId);
 
-            var crudEventViewModel = new CrudEvent()
+            var crudEvent = new CrudEvent()
             {
                 Id = e.Id,
                 Title = e.Title,
@@ -85,14 +85,14 @@ namespace Services
                 Pictures = _picturesRepository.GetPicturesForEvent(e.Id).Select(p => p.Link).ToList()
             };
 
-            return crudEventViewModel;
+            return crudEvent;
         }
 
         public EventDetails GetEventDetailsById(string eventId)
         {
             var e = _eventsRepository.GetEventById(eventId);
 
-            var eventDetailsViewModel = new EventDetails()
+            var eventDetails = new EventDetails()
             {
                 Id = e.Id,
                 Title = e.Title,
@@ -106,7 +106,7 @@ namespace Services
                 Pictures = _picturesRepository.GetPicturesForEvent(e.Id).Select(p => p.Link).ToList()
             };
 
-            return eventDetailsViewModel;
+            return eventDetails;
         }
 
         public CrudEvent AddEvent(CrudEvent crudEvent)

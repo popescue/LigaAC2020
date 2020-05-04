@@ -59,7 +59,7 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult AddEvent(CrudEventViewModel crudEventViewModel)
         {
-            crudEventViewModel.Id = Guid.NewGuid().ToString();
+            crudEventViewModel.Id = Guid.NewGuid().ToString().Substring(31);
 
             var crudEvent = new CrudEvent()           
             {
@@ -69,7 +69,7 @@ namespace WebApp.Controllers
                 Address = crudEventViewModel.Address,
                 LocationType = crudEventViewModel.LocationType,
                 Audience = crudEventViewModel.Audience,
-                Duration = (int)crudEventViewModel.Duration,
+                Duration = crudEventViewModel.Duration,
                 Type = crudEventViewModel.Type,
                 PublishDate = crudEventViewModel.PublishDate,
                 IsActive = crudEventViewModel.IsActive,
