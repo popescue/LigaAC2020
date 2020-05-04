@@ -25,8 +25,21 @@ namespace WebApp.Controllers
         [HttpGet("{id}")]
         public IActionResult Details(string id)
         {
-
-            return View(_eventsService.GetEventDetailsById(id));
+            var eventDetails = _eventsService.GetEventDetailsById(id);
+      
+            return View(new EventDetailsViewModel()
+            {
+                Id = eventDetails.Id,
+                Title = eventDetails.Title,
+                Audience = eventDetails.Audience,
+                Description = eventDetails.Description,
+                Duration = eventDetails.Duration,
+                LocationType = eventDetails.LocationType,
+                LocationAddress = eventDetails.LocationAddress,
+                Type = eventDetails.Type,
+                StartsAt = eventDetails.StartsAt,
+                Pictures = eventDetails.Pictures
+            });
         }
 
         [HttpGet]
@@ -47,9 +60,6 @@ namespace WebApp.Controllers
         public IActionResult AddEvent(CrudEventViewModel crudEventViewModel)
         {
             crudEventViewModel.Id = Guid.NewGuid().ToString();
-            //crudEventViewModel.Pictures.Select(p => new Picture(p.Id = Guid.NewGuid().ToString());
-
-            //var pictures = new List<Picture>() {}
 
             var crudEvent = new CrudEvent()           
             {
@@ -83,9 +93,23 @@ namespace WebApp.Controllers
             ViewBag.RequiredEventType = new SelectList(eventType);
             ViewBag.RequiredLocationType = new SelectList(locationType);
 
-            var e = _eventsService.GetCrudEventViewModelById(eventId);
+            var crudEvent = _eventsService.GetCrudEventViewModelById(eventId);
 
-            return View(e);
+            return View(new CrudEventViewModel()
+            {
+                Id = crudEvent.Id,
+                Title = crudEvent.Title,
+                Audience = crudEvent.Audience,
+                Description = crudEvent.Description,
+                Duration = crudEvent.Duration,
+                LocationType = crudEvent.LocationType,
+                Address = crudEvent.Address,
+                Type = crudEvent.Type,
+                StartsAt = crudEvent.StartsAt,
+                Pictures = crudEvent.Pictures,
+                IsActive = crudEvent.IsActive,
+                PublishDate = crudEvent.PublishDate
+            });
         }
 
         public IActionResult EditEvent(CrudEventViewModel crudEventViewModel)
@@ -114,9 +138,23 @@ namespace WebApp.Controllers
         [HttpGet]
         public IActionResult DeleteEvent(string eventId)
         {
-            var e = _eventsService.GetEventDetailsById(eventId);
+            var crudEvent = _eventsService.GetCrudEventViewModelById(eventId);
 
-            return View(e);
+            return View(new CrudEventViewModel()
+            {
+                Id = crudEvent.Id,
+                Title = crudEvent.Title,
+                Audience = crudEvent.Audience,
+                Description = crudEvent.Description,
+                Duration = crudEvent.Duration,
+                LocationType = crudEvent.LocationType,
+                Address = crudEvent.Address,
+                Type = crudEvent.Type,
+                StartsAt = crudEvent.StartsAt,
+                Pictures = crudEvent.Pictures,
+                IsActive = crudEvent.IsActive,
+                PublishDate = crudEvent.PublishDate
+            });
         }
 
         public IActionResult Delete(string eventId)

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApp.Context;
 
-namespace WebApp.Migrations
+namespace Repository.SQL.Migrations
 {
     [DbContext(typeof(CulturalHubContext))]
     partial class CulturalHubContextModelSnapshot : ModelSnapshot
@@ -64,8 +64,10 @@ namespace WebApp.Migrations
 
             modelBuilder.Entity("WebApp.StorageModels.PictureStorageModel", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("Deleted")
                         .HasColumnType("datetime2");

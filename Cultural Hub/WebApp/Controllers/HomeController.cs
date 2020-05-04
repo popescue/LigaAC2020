@@ -27,7 +27,18 @@ namespace WebApp.Controllers
 
         public IActionResult Index()
         {
-            return View(_eventsService.GetEventShortInfoList());
+            return View(_eventsService
+                .GetEventShortInfoList()
+                .Select(e => new EventShortInfoViewModel()
+                {
+                    Id = e.Id,
+                    LocationAddress = e.LocationAddress,
+                    Pictures = e.Pictures,
+                    StartsAt = e.StartsAt,
+                    Title = e.Title
+                })
+                .ToList()
+                );
         }
 
         public IActionResult Privacy()
