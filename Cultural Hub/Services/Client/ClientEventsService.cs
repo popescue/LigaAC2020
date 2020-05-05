@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,14 +7,14 @@ using System.Threading.Tasks;
 using WebApp.Repositories;
 
 
-namespace Services
+namespace Services.Client
 {
-    public class EventsService
+    public class ClientEventsService
     {
         private IEventsRepository _eventsRepository;
         private IPicturesRepository _picturesRepository;
 
-        public EventsService(
+        public ClientEventsService(
             IEventsRepository eventsRepository,
             IPicturesRepository picturesRepository
             )
@@ -22,22 +23,22 @@ namespace Services
             _picturesRepository = picturesRepository;
         }
 
-        public List<EventDetails> GetEventDetailsList()
+        public List<ClientEventDetails> GetClientEventDetailsList()
         {
             var eventDetailsList = _eventsRepository.GetEvents().Select(e =>
             {
-                var eventDetails = new EventDetails()
+                var eventDetails = new ClientEventDetails()
                 {
-                    Id = e.Id,
-                    Title = e.Title,
-                    StartsAt = e.StartsAt,
+                    Id = e.Id.IdValue,
+                    Title = e.Title.TitleValue,
+                    StartsAt = e.StartsAt.StartDateValue,
                     LocationAddress = e.Location.Address,
                     LocationType = e.Location.Type.ToString(),
-                    Description = e.Description,
-                    Duration = e.Duration,
+                    Description = e.Description.DescriptionValue,
+                    Duration = e.Duration.DurationValue,
                     Audience = e.Audience.ToString(),
                     Type = e.Type.ToString(),
-                    Pictures = _picturesRepository.GetPicturesForEvent(e.Id).Select(p => p.Link).ToList()
+                    Pictures = _picturesRepository.GetPicturesForEvent(e.Id.IdValue).Select(p => p.Link).ToList()
                 };
 
                 return eventDetails;
@@ -46,17 +47,19 @@ namespace Services
             return eventDetailsList;
         }
 
-        public List<EventShortInfo> GetEventShortInfoList()
+        public List<ClientEventShortInfo> GetClientEventShortInfoList()
         {
             var eventShortInfoList = _eventsRepository.GetEvents().Select(e =>
             {
-                var eventShortInfo = new EventShortInfo()
+                var eventShortInfo = new ClientEventShortInfo()
                 {
-                    Id = e.Id,
-                    Title = e.Title,
-                    StartsAt = e.StartsAt,
-                    LocationAddress = e.Location.Address,
-                    Pictures = _picturesRepository.GetPicturesForEvent(e.Id).Select(p => p.Link).ToList()
+                    Id = e.Id.IdValue,
+                    Title = e.Title.TitleValue,
+                    StartsAt = e.StartsAt.StartDateValue,
+                    PublishDate=e.PublishDate.PublishDateValue,
+                    IsActive=e.IsActive,
+                    IsPublished=e.IsPublished,
+                    Pictures = _picturesRepository.GetPicturesForEvent(e.Id.IdValue).Select(p => p.Link).ToList()
                 };
 
                 return eventShortInfo;
@@ -74,36 +77,38 @@ namespace Services
                 Id = e.Id,
                 Title = e.Title,
                 Description = e.Description,
-                Address = e.Location.Address,
-                LocationType = e.Location.Type,
+                Location=e.Location,
                 Audience = e.Audience,
-                Duration = (int)e.Duration.TotalHours,
+                Duration = e.Duration,
                 Type = e.Type,
                 PublishDate = e.PublishDate,
                 IsActive = e.IsActive,
                 StartsAt = e.StartsAt,
-                Pictures = _picturesRepository.GetPicturesForEvent(e.Id).Select(p => p.Link).ToList()
+                Pictures = _picturesRepository.GetPicturesForEvent(e.Id.IdValue).Select(p => p.Link).ToList()
             };
 
             return crudEvent;
         }
 
-        public EventDetails GetEventDetailsById(string eventId)
+        public ClientEventDetails GetClientEventDetailsById(string eventId)
         {
             var e = _eventsRepository.GetEventById(eventId);
 
-            var eventDetails = new EventDetails()
+            var eventDetails = new ClientEventDetails()
             {
-                Id = e.Id,
-                Title = e.Title,
-                StartsAt = e.StartsAt,
+                Id = e.Id.IdValue,
+                Title = e.Title.TitleValue,
+                StartsAt = e.StartsAt.StartDateValue,
                 LocationAddress = e.Location.Address,
                 LocationType = e.Location.Type.ToString(),
-                Description = e.Description,
-                Duration = e.Duration,
+                Description = e.Description.DescriptionValue,
+                Duration = e.Duration.DurationValue,
                 Audience = e.Audience.ToString(),
                 Type = e.Type.ToString(),
-                Pictures = _picturesRepository.GetPicturesForEvent(e.Id).Select(p => p.Link).ToList()
+                PublishDate=e.PublishDate.PublishDateValue,
+                IsActive=e.IsActive,
+                IsPublished=e.IsPublished,
+                Pictures = _picturesRepository.GetPicturesForEvent(e.Id.IdValue).Select(p => p.Link).ToList()
             };
 
             return eventDetails;
@@ -115,22 +120,23 @@ namespace Services
             var e = new Event(crudEvent.Id,
                             crudEvent.Title,
                             crudEvent.Description,
-                            new Location(crudEvent.Address, crudEvent.LocationType),
+                            new Location(crudEvent.Location.Address, crudEvent.Location.Type),
                             crudEvent.StartsAt,
-                            new TimeSpan(crudEvent.Duration, 0, 0),
+                            new EventDuration(crudEvent.Duration.DurationValue),
                             crudEvent.Type,
                             crudEvent.Audience,
                             crudEvent.PublishDate,
-                            crudEvent.IsActive);
+                            crudEvent.IsActive
+                            );
 
 
             var eFromDB = _eventsRepository.AddEvent(e);
-            crudEvent.Id = eFromDB.Id;
+            crudEvent.Id.IdValue = eFromDB.Id.IdValue;
 
             // Create Pictures 
             var pictures = crudEvent.Pictures
                 .Where(p => p != null)
-                .Select(p => new Picture(eFromDB.Id, null, p))
+                .Select(p => new Picture(eFromDB.Id.IdValue, null, p))
                 .ToList();
 
             _picturesRepository.AddPicturesToEvent(pictures);
@@ -145,9 +151,9 @@ namespace Services
             var e = new Event(crudEvent.Id,
                 crudEvent.Title,
                 crudEvent.Description,
-                new Location(crudEvent.Address, crudEvent.LocationType),
+                new Location(crudEvent.Location.Address, crudEvent.Location.Type),
                 crudEvent.StartsAt,
-                new TimeSpan(crudEvent.Duration, 0, 0),
+                new EventDuration(crudEvent.Duration.DurationValue),
                 crudEvent.Type,
                 crudEvent.Audience,
                 crudEvent.PublishDate,
@@ -156,11 +162,11 @@ namespace Services
             _eventsRepository.EditEvent(e);
 
             // Update Pictures 
-            _picturesRepository.DeleteAllPicturesFromEvent(e.Id);
+            _picturesRepository.DeleteAllPicturesFromEvent(e.Id.IdValue);
 
             var pictures = crudEvent.Pictures
                 .Where(p => p != null)
-                .Select(p => new Picture(e.Id, null, p))
+                .Select(p => new Picture(e.Id.IdValue, null, p))
                 .ToList();
 
             _picturesRepository.AddPicturesToEvent(pictures);
