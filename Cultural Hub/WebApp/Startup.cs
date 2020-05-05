@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Services;
 using Services.Client;
-using Services.Global;
+using Services.User;
 using WebApp.Context;
 using WebApp.Repositories;
 
@@ -39,7 +39,7 @@ namespace WebApp
             services.AddScoped<IPicturesRepository, PicturesRepository>();
 
             //register services
-            services.AddScoped<GlobalEventsService, GlobalEventsService>();
+            services.AddScoped<UserEventsService, UserEventsService>();
             services.AddScoped<ClientEventsService, ClientEventsService>();
 
         }

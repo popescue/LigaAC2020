@@ -83,32 +83,18 @@ namespace WebApp.Repositories
 
         public void EditEvent(Event e)
         {
-            var eventStorageModel = new EventStorageModel()
-            {
-                Title = e.Title.TitleValue,
-                StartsAt = e.StartsAt.StartDateValue,
-                Description = e.Description.DescriptionValue,
-                Duration = e.Duration.DurationValue,
-                Audience = (int)e.Audience,
-                Type = (int)e.Type,
-                PublishDate = e.PublishDate.PublishDateValue,
-                IsActive = e.IsActive,
-                LocationAddress = e.Location.Address,
-                LocationType = (int)e.Location.Type
-            };
+            var eDB = _culturalHubContext.Events.Find(e.Id.IdValue);
 
-            var eDB = _culturalHubContext.Events.Find(eventStorageModel.Id);
-
-            eDB.Title = eventStorageModel.Title;
-            eDB.StartsAt = eventStorageModel.StartsAt;
-            eDB.Description = eventStorageModel.Description;
-            eDB.LocationAddress = eventStorageModel.LocationAddress;
-            eDB.LocationType = eventStorageModel.LocationType;
-            eDB.Duration = eventStorageModel.Duration;
-            eDB.Audience = eventStorageModel.Audience;
-            eDB.Type = eventStorageModel.Type;
-            eDB.PublishDate = eventStorageModel.PublishDate;
-            eDB.IsActive = eventStorageModel.IsActive;
+            eDB.Title = e.Title.TitleValue;
+            eDB.StartsAt = e.StartsAt.StartDateValue;
+            eDB.Description = e.Description.DescriptionValue;
+            eDB.LocationAddress = e.Location.Address;
+            eDB.LocationType = (int)e.Location.Type;
+            eDB.Duration = e.Duration.DurationValue;
+            eDB.Audience = (int)e.Audience;
+            eDB.Type = (int)e.Type;
+            eDB.PublishDate = e.PublishDate.PublishDateValue;
+            eDB.IsActive = e.IsActive;
 
             _culturalHubContext.Events.Update(eDB);
 

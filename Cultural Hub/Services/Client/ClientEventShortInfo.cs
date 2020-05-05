@@ -10,6 +10,8 @@ namespace Services.Client
 
         public string Title { get; set; }
 
+        public string LocationAddress { get; set; }
+
         public DateTime StartsAt { get; set; }
 
         public DateTime PublishDate { get; set; }
