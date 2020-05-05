@@ -59,7 +59,8 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult AddEvent(CrudEventViewModel crudEventViewModel)
         {
-            crudEventViewModel.Id = Guid.NewGuid().ToString();
+            crudEventViewModel.Id = Guid.NewGuid().ToString().Substring(31);
+               
 
             var crudEvent = new CrudEvent()           
             {
