@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Services;
+using Services.Client;
+using Services.Global;
 using WebApp.Context;
 using WebApp.Repositories;
 
@@ -36,6 +39,8 @@ namespace WebApp
             services.AddScoped<IPicturesRepository, PicturesRepository>();
 
             //register services
+            services.AddScoped<GlobalEventsService, GlobalEventsService>();
+            services.AddScoped<ClientEventsService, ClientEventsService>();
 
         }
 

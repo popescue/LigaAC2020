@@ -18,8 +18,8 @@ namespace Domain
         public bool IsActive { get; }
         public bool IsPublished { get; }
 
-        public Event( EventId Id, EventTitle Title, EventDescription Description, Location Location, EventStartDate StartsAt, EventDuration Duration, EventType Type, Audience Audience, EventPublishDate PublishDate, bool IsActive)
-            {
+        public Event(EventId Id, EventTitle Title, EventDescription Description, Location Location, EventStartDate StartsAt, EventDuration Duration, EventType Type, Audience Audience, EventPublishDate PublishDate, bool IsActive)
+        {
             this.Id = Id;
             this.Title = Title;
             this.Description = Description;
@@ -30,7 +30,7 @@ namespace Domain
             this.Audience = Audience;
             this.PublishDate = PublishDate;
             this.IsActive = IsActive;
-            }
+        }
 
         public Event(EventId id, ClientId clientId)
         {
