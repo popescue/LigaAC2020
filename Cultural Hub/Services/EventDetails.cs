@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Services
 {
-    public class GlobalEventDetails
+    public class EventDetails
     {
 
         public string Id { get; set; }
