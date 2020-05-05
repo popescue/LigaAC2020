@@ -22,15 +22,15 @@ namespace WebApp.Repositories
             var e = _culturalHubContext.Events.Find(eventId);
             if (e.Deleted != null) return null;
 
-            return new Event(e.Id,
-                            e.Title,
-                            e.Description,
+            return new Event(new EventId(e.Id),
+                            new EventTitle(e.Title),
+                            new EventDescription(e.Description),
                             new Location(e.LocationAddress, (LocationType)e.LocationType),
-                            e.StartsAt,
-                            e.Duration,
+                            new EventStartDate(e.StartsAt.Year,e.StartsAt.Month,e.StartsAt.Day,e.StartsAt.Hour,e.StartsAt.Minute),
+                            new EventDuration(e.Duration),
                             (EventType)e.Type,
                             (Audience)e.Audience,
-                            e.PublishDate,
+                            new EventPublishDate(e.PublishDate),
                             e.IsActive);
         }
 
@@ -39,11 +39,16 @@ namespace WebApp.Repositories
             return _culturalHubContext.Events
                 .Where(e => e.Deleted == null)
                 .Select(e =>
-                        new Event(e.Id,
-                        e.Title, e.Description,
+                        new Event(new EventId(e.Id),
+                        new EventTitle(e.Title), 
+                        new EventDescription(e.Description),
                         new Location(e.LocationAddress, (LocationType)e.LocationType),
-                        e.StartsAt, e.Duration, (EventType)e.Type, (Audience)e.Audience,
-                        e.PublishDate, e.IsActive)
+                        new EventStartDate(e.StartsAt.Year, e.StartsAt.Month, e.StartsAt.Day, e.StartsAt.Hour, e.StartsAt.Minute),
+                        new EventDuration(e.Duration),
+                        (EventType)e.Type, 
+                        (Audience)e.Audience,
+                        new EventPublishDate(e.PublishDate),
+                        e.IsActive)
                 )
                 .ToList();
         }
@@ -52,14 +57,14 @@ namespace WebApp.Repositories
         {
             var eventStorageModel = new EventStorageModel()
             {
-                Id = e.Id,
-                Title = e.Title,
-                StartsAt = e.StartsAt,
-                Description = e.Description,
-                Duration = e.Duration,
+                Id = e.Id.IdValue,
+                Title = e.Title.TitleValue,
+                StartsAt = e.StartsAt.StartDateValue,
+                Description = e.Description.DescriptionValue,
+                Duration = e.Duration.DurationValue,
                 Audience = (int)e.Audience,
                 Type = (int)e.Type,
-                PublishDate = e.PublishDate,
+                PublishDate = e.PublishDate.PublishDateValue,
                 IsActive = e.IsActive,
                 LocationAddress = e.Location.Address,
                 LocationType = (int)e.Location.Type
@@ -80,13 +85,13 @@ namespace WebApp.Repositories
         {
             var eventStorageModel = new EventStorageModel()
             {
-                Title = e.Title,
-                StartsAt = e.StartsAt,
-                Description = e.Description,
-                Duration = e.Duration,
+                Title = e.Title.TitleValue,
+                StartsAt = e.StartsAt.StartDateValue,
+                Description = e.Description.DescriptionValue,
+                Duration = e.Duration.DurationValue,
                 Audience = (int)e.Audience,
                 Type = (int)e.Type,
-                PublishDate = e.PublishDate,
+                PublishDate = e.PublishDate.PublishDateValue,
                 IsActive = e.IsActive,
                 LocationAddress = e.Location.Address,
                 LocationType = (int)e.Location.Type
