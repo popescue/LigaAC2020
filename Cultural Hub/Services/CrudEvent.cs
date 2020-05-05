@@ -6,6 +6,19 @@ namespace Services
 {
     public class CrudEvent
     {
+        //public EventId Id { get; set; }
+        //public ClientId ClientId { get; set; }
+        //public EventTitle Title { get; set; }
+        //public EventDescription Description { get; set; }
+        //public Location Location { get; set; }
+        //public EventStartDate StartsAt { get; set; }
+        //public EventDuration Duration { get; set; }
+        //public EventType Type { get; set; }
+        //public Audience Audience { get; set; }
+        //public EventPublishDate PublishDate { get; set; }
+        //public bool IsActive { get; set; }
+        //public bool IsPublished { get; set; }
+        //public List<Uri> Pictures { get; set; }
 
         public string Id { get; set; }
         public string Title { get; set; }

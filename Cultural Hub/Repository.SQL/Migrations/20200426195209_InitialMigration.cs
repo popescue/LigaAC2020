@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Repository.SQL.Migrations
+namespace WebApp.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,7 +22,7 @@ namespace Repository.SQL.Migrations
                     Audience = table.Column<int>(nullable: false),
                     PublishDate = table.Column<DateTime>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
-                    Deleted = table.Column<DateTime>(nullable: true)
+                    Deleted = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,16 +33,12 @@ namespace Repository.SQL.Migrations
                 name: "Pictures",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     EventId = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Link = table.Column<string>(nullable: true),
-                    Deleted = table.Column<DateTime>(nullable: true)
+                    Link = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pictures", x => x.Id);
                 });
         }
 

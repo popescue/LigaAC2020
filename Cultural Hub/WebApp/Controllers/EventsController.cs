@@ -7,25 +7,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApp.Models;
 using Services;
+using Services.User;
+using Services.Client;
 
 namespace WebApp.Controllers
 {
 
     public class EventsController : Controller
     {
-        private EventsService _eventsService;
+        private UserEventsService _userEventsService;
+        private ClientEventsService _clientEventsService;
 
-        public EventsController(
-            EventsService eventsService
-            )
+        public EventsController(UserEventsService userEventsService, ClientEventsService clientEventsService)
         {
-            _eventsService = eventsService;
+            _userEventsService = userEventsService;
+            _clientEventsService = clientEventsService;
         }
 
         [HttpGet("{id}")]
         public IActionResult Details(string id)
         {
-            var eventDetails = _eventsService.GetEventDetailsById(id);
+            var eventDetails = _userEventsService.GetUserEventDetailsById(id);
       
             return View(new EventDetailsViewModel()
             {
@@ -59,17 +61,14 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult AddEvent(CrudEventViewModel crudEventViewModel)
         {
-            crudEventViewModel.Id = Guid.NewGuid().ToString().Substring(31);
-
             var crudEvent = new CrudEvent()           
             {
-                Id = crudEventViewModel.Id,
                 Title = crudEventViewModel.Title,
                 Description = crudEventViewModel.Description,
                 Address = crudEventViewModel.Address,
                 LocationType = crudEventViewModel.LocationType,
                 Audience = crudEventViewModel.Audience,
-                Duration = crudEventViewModel.Duration,
+                Duration = (int)crudEventViewModel.Duration,
                 Type = crudEventViewModel.Type,
                 PublishDate = crudEventViewModel.PublishDate,
                 IsActive = crudEventViewModel.IsActive,
@@ -77,7 +76,7 @@ namespace WebApp.Controllers
                 Pictures = crudEventViewModel.Pictures
             };
 
-            _eventsService.AddEvent(crudEvent);
+            _clientEventsService.AddEvent(crudEvent);
 
             return RedirectToAction("Index", "Home");
         }
@@ -93,7 +92,7 @@ namespace WebApp.Controllers
             ViewBag.RequiredEventType = new SelectList(eventType);
             ViewBag.RequiredLocationType = new SelectList(locationType);
 
-            var crudEvent = _eventsService.GetCrudEventViewModelById(eventId);
+            var crudEvent = _clientEventsService.GetCrudEventViewModelById(eventId);
 
             return View(new CrudEventViewModel()
             {
@@ -130,7 +129,7 @@ namespace WebApp.Controllers
                 Pictures = crudEventViewModel.Pictures
             };
 
-            _eventsService.EditEvent(crudEvent);
+            _clientEventsService.EditEvent(crudEvent);
 
             return RedirectToAction("Index", "Home");
         }
@@ -138,7 +137,7 @@ namespace WebApp.Controllers
         [HttpGet]
         public IActionResult DeleteEvent(string eventId)
         {
-            var crudEvent = _eventsService.GetCrudEventViewModelById(eventId);
+            var crudEvent = _clientEventsService.GetCrudEventViewModelById(eventId);
 
             return View(new CrudEventViewModel()
             {
@@ -159,7 +158,7 @@ namespace WebApp.Controllers
 
         public IActionResult Delete(string eventId)
         {
-            _eventsService.DeleteEvent(eventId);
+            _clientEventsService.DeleteEvent(eventId);
 
             return RedirectToAction("Index", "Home");
         }
