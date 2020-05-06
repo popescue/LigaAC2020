@@ -101,12 +101,12 @@ namespace Services.Client
 
 
             var eFromDB = _eventsRepository.AddEvent(e);
-            crudEvent.Id = eFromDB.Id.ToString();
+            crudEvent.Id = eFromDB.Id.IdValue.ToString();
 
             // Create Pictures 
             var pictures = crudEvent.Pictures
                 .Where(p => p != null)
-                .Select(p => new Picture(eFromDB.Id.ToString(), null, p))
+                .Select(p => new Picture(crudEvent.Id, null, p))
                 .ToList();
 
             _picturesRepository.AddPicturesToEvent(pictures);
