@@ -10,26 +10,26 @@ namespace Domain
         public EventTitle Title { get; }
         public EventDescription Description { get; }
         public Location Location { get; }
-        public EventStartDate StartsAt { get; }
-        public EventDuration Duration { get; }
+        public EventDate StartsAt { get; }
+        public EventDate EndsAt { get; }
         public EventType Type { get; }
         public Audience Audience { get; }
         public EventPublishDate PublishDate { get; }
         public bool IsActive { get; }
         public bool IsPublished { get; }
 
-        public Event(EventId Id, EventTitle Title, EventDescription Description, Location Location, EventStartDate StartsAt, EventDuration Duration, EventType Type, Audience Audience, EventPublishDate PublishDate, bool IsActive)
+        public Event(EventId id, EventTitle title, EventDescription description, Location location, EventDate startsAt, EventDate endsAt, EventType type, Audience audience, EventPublishDate publishDate, bool isActive)
         {
-            this.Id = Id;
-            this.Title = Title;
-            this.Description = Description;
-            this.Location = Location;
-            this.StartsAt = StartsAt;
-            this.Duration = Duration;
-            this.Type = Type;
-            this.Audience = Audience;
-            this.PublishDate = PublishDate;
-            this.IsActive = IsActive;
+            this.Id = id;
+            this.Title = title;
+            this.Description = description;
+            this.Location = location;
+            this.StartsAt = startsAt;
+            this.EndsAt = endsAt;
+            this.Type = type;
+            this.Audience = audience;
+            this.PublishDate = publishDate;
+            this.IsActive = isActive;
         }
 
         public Event(EventId id, ClientId clientId)

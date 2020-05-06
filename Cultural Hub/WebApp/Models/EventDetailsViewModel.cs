@@ -32,9 +32,9 @@ namespace WebApp.Models
         [Required(ErrorMessage = "* Selectati data si ora")]
         public DateTime StartsAt { get; set; }
 
-        [Display(Name = "Durata")]
+        [Display(Name = "Se termina la")]
         [Required(ErrorMessage = "* Introduceti o durata valida")]
-        public TimeSpan Duration { get; set; }
+        public DateTime EndsAt { get; set; }
 
         [Display(Name = "Tipul evenimentului")]
         [Required(ErrorMessage = "* Introduceti tipul evenimetului")]

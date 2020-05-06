@@ -23,11 +23,11 @@ namespace Services.User
             {
                 var eventShortInfo = new UserEventShortInfo()
                 {
-                    Id = e.Id.IdValue,
+                    Id = e.Id.Value,
                     Title = e.Title.TitleValue,
-                    StartsAt = e.StartsAt.StartDateValue,
+                    StartsAt = e.StartsAt.Value,
                     LocationAddress = e.Location.Address,
-                    Pictures = _picturesRepository.GetPicturesForEvent(e.Id.IdValue).Select(p => p.Link).ToList()
+                    Pictures = _picturesRepository.GetPicturesForEvent(e.Id.Value).Select(p => p.Link).ToList()
                 };
 
                 return eventShortInfo;
@@ -42,16 +42,16 @@ namespace Services.User
 
             var eventDetails = new UserEventDetails()
             {
-                Id = e.Id.IdValue,
+                Id = e.Id.Value,
                 Title = e.Title.TitleValue,
-                StartsAt = e.StartsAt.StartDateValue,
+                StartsAt = e.StartsAt.Value,
                 LocationAddress = e.Location.Address,
                 LocationType = e.Location.Type.ToString(),
                 Description = e.Description.DescriptionValue,
-                Duration = e.Duration.DurationValue,
+                EndsAt = e.EndsAt.Value,
                 Audience = e.Audience.ToString(),
                 Type = e.Type.ToString(),
-                Pictures = _picturesRepository.GetPicturesForEvent(e.Id.IdValue).Select(p => p.Link).ToList()
+                Pictures = _picturesRepository.GetPicturesForEvent(e.Id.Value).Select(p => p.Link).ToList()
             };
 
             return eventDetails;
