@@ -37,10 +37,9 @@ namespace WebApp.Models
         [DataType(DataType.DateTime)]
         public DateTime StartsAt { get; set; }
 
-        [Display(Name = "Durata")]
+        [Display(Name = "Se termina la")]
         [Required]
-        [Range(1, 50)]
-        public int Duration { get; set; }
+        public DateTime EndsAt { get; set; }
 
         [Display(Name = "Tipul evenimentului")]
         [Required]

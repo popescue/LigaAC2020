@@ -18,7 +18,7 @@ namespace Services
 
         public DateTime StartsAt { get; set; }
 
-        public TimeSpan Duration { get; set; }
+        public DateTime EndsAt { get; set; }
 
         public string Type { get; set; }
 

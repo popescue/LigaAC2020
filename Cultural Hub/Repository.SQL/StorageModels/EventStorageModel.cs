@@ -13,7 +13,7 @@ namespace WebApp.StorageModels
         public string LocationAddress { get; set; }
         public int LocationType { get; set; }
         public DateTime StartsAt { get; set; }
-        public TimeSpan Duration { get; set; }
+        public DateTime EndsAt { get; set; }
         public int Type { get; set; }
         public int Audience { get; set; }
         public DateTime PublishDate { get; set; }

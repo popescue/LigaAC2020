@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace WebApp.Migrations
+namespace Repository.SQL.Migrations
 {
     public partial class InitialMigration : Migration
     {
@@ -17,12 +17,12 @@ namespace WebApp.Migrations
                     LocationAddress = table.Column<string>(nullable: true),
                     LocationType = table.Column<int>(nullable: false),
                     StartsAt = table.Column<DateTime>(nullable: false),
-                    Duration = table.Column<TimeSpan>(nullable: false),
+                    EndsAt = table.Column<DateTime>(nullable: false),
                     Type = table.Column<int>(nullable: false),
                     Audience = table.Column<int>(nullable: false),
                     PublishDate = table.Column<DateTime>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
-                    Deleted = table.Column<DateTime>(nullable: false)
+                    Deleted = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -33,12 +33,16 @@ namespace WebApp.Migrations
                 name: "Pictures",
                 columns: table => new
                 {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     EventId = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Link = table.Column<string>(nullable: true)
+                    Link = table.Column<string>(nullable: true),
+                    Deleted = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_Pictures", x => x.Id);
                 });
         }
 

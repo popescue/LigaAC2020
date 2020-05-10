@@ -20,7 +20,7 @@ namespace Services.Client
 
         public DateTime PublishDate { get; set; }
 
-        public TimeSpan Duration { get; set; }
+        public DateTime EndsAt { get; set; }
 
         public string Type { get; set; }
 
