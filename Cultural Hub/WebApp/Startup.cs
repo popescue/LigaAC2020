@@ -13,6 +13,7 @@ using Services;
 using Services.Client;
 using Services.User;
 using WebApp.Context;
+using WebApp.Models;
 using WebApp.Repositories;
 
 
@@ -30,6 +31,14 @@ namespace WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentity<AppUser, AppRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<LoginDbContext>();
+
+            services.AddDbContext<LoginDbContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("LoginConnection")));
+
             services.AddDbContext<CulturalHubContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("CulturalHubConnection")));
             services.AddControllersWithViews();
@@ -62,6 +71,7 @@ namespace WebApp
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
