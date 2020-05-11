@@ -162,5 +162,11 @@ namespace WebApp.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public IActionResult FavoriteEvents()
+        {
+            return View();
+        }
     }
 }

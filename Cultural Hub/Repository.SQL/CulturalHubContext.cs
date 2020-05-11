@@ -1,10 +1,12 @@
 ﻿using Domain;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebApp.StorageModels;
 
-namespace WebApp.Context
+namespace Repository.SQL
 {
-    public class CulturalHubContext : DbContext
+    public class CulturalHubContext : IdentityDbContext<IdentityUser>
     {
         public CulturalHubContext(DbContextOptions<CulturalHubContext> options) : base(options)
         {
@@ -17,6 +19,7 @@ namespace WebApp.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<EventStorageModel>().HasKey(e => e.Id);
             modelBuilder.Entity<PictureStorageModel>().HasKey(p => p.Id);
         }
