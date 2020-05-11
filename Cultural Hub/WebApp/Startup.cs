@@ -33,8 +33,8 @@ namespace WebApp
         {
             services.AddDbContext<CulturalHubContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("CulturalHubConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<CulturalHubContext>();
+            /*services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddEntityFrameworkStores<CulturalHubContext>();*/
             services.AddControllersWithViews();
             services.AddRazorPages();
 
