@@ -19,6 +19,7 @@ namespace WebApp.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<EventStorageModel>().HasKey(e => e.Id);
             modelBuilder.Entity<PictureStorageModel>().HasKey(p => p.Id);
         }
