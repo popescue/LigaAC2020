@@ -31,13 +31,6 @@ namespace WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentity<AppUser, AppRole>(options =>
-            {
-                options.User.RequireUniqueEmail = true;
-            }).AddEntityFrameworkStores<LoginDbContext>();
-
-            services.AddDbContext<LoginDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("LoginConnection")));
 
             services.AddDbContext<CulturalHubContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("CulturalHubConnection")));

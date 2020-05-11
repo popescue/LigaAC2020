@@ -1,10 +1,11 @@
 ﻿using Domain;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebApp.StorageModels;
 
 namespace WebApp.Context
 {
-    public class CulturalHubContext : DbContext
+    public class CulturalHubContext : IdentityDbContext
     {
         public CulturalHubContext(DbContextOptions<CulturalHubContext> options) : base(options)
         {
