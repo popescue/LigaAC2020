@@ -9,6 +9,7 @@ using WebApp.Models;
 using Services;
 using Services.User;
 using Services.Client;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Controllers
 {
@@ -164,6 +165,8 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        //[Authorize(Roles = "User")]
         public IActionResult FavoriteEvents()
         {
             return View();

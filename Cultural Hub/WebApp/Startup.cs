@@ -46,6 +46,8 @@ namespace WebApp
             services.AddScoped<UserEventsService, UserEventsService>();
             services.AddScoped<ClientEventsService, ClientEventsService>();
 
+            services.AddAuthorization(a => a.AddPolicy("AllowAll", b => b.RequireRole(new string[] {"User", "Client" })));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
