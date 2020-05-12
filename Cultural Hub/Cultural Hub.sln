@@ -23,7 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.EnterpriseBusinessRules",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository.InMemory", "Repository.InMemory\Repository.InMemory.csproj", "{9E7523D1-D542-4990-AB2D-6CD6387DCA01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository.SQL", "Repository.SQL\Repository.SQL.csproj", "{A1665933-38B4-4893-AD53-855D8752425A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository.SQL", "Repository.SQL\Repository.SQL.csproj", "{A1665933-38B4-4893-AD53-855D8752425A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppClient", "WebAppClient\WebAppClient.csproj", "{DDEAAA25-2733-4F40-AB10-44C06BAC07DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{A1665933-38B4-4893-AD53-855D8752425A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1665933-38B4-4893-AD53-855D8752425A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1665933-38B4-4893-AD53-855D8752425A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDEAAA25-2733-4F40-AB10-44C06BAC07DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDEAAA25-2733-4F40-AB10-44C06BAC07DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDEAAA25-2733-4F40-AB10-44C06BAC07DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDEAAA25-2733-4F40-AB10-44C06BAC07DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +72,7 @@ Global
 		{9B9D0B06-E08C-4529-B71A-1DDA35952532} = {13D40CAF-20C0-40FA-8B72-B5E35B21A6E8}
 		{9E7523D1-D542-4990-AB2D-6CD6387DCA01} = {7ADDCA40-E980-47AF-9F6B-07F5E16A438D}
 		{A1665933-38B4-4893-AD53-855D8752425A} = {7ADDCA40-E980-47AF-9F6B-07F5E16A438D}
+		{DDEAAA25-2733-4F40-AB10-44C06BAC07DC} = {7ADDCA40-E980-47AF-9F6B-07F5E16A438D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02CA4731-48A3-4983-AC5B-E063F6EFE5EB}

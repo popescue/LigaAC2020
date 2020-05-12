@@ -18,11 +18,10 @@ namespace Domain
         public bool IsActive { get; }
         public bool IsPublished { get; }
 
-        public Event(EventId id, EventTitle title, EventDescription description, Location location, EventDate startsAt, EventDate endsAt, EventType type, Audience audience, EventPublishDate publishDate, bool isActive)
+        public Event(EventId id, ClientId clientId, EventTitle title, EventDescription description, Location location, EventDate startsAt, EventDate endsAt, EventType type, Audience audience, EventPublishDate publishDate, bool isActive)
         {
-            // ClientId clientId, in constructor
             this.Id = id;
-            //this.ClientId = clientId;
+            this.ClientId = clientId;
             this.Title = title;
             this.Description = description;
             this.Location = location;

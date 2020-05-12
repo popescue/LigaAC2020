@@ -8,6 +8,7 @@ namespace WebApp.StorageModels
     public class EventStorageModel
     {
         public string Id { get; set; }
+        public string ClientId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string LocationAddress { get; set; }
