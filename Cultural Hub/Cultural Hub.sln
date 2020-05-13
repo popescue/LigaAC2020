@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository.InMemory", "Repo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository.SQL", "Repository.SQL\Repository.SQL.csproj", "{A1665933-38B4-4893-AD53-855D8752425A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppClient", "WebAppClient\WebAppClient.csproj", "{DDEAAA25-2733-4F40-AB10-44C06BAC07DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppClient", "WebAppClient\WebAppClient.csproj", "{DDEAAA25-2733-4F40-AB10-44C06BAC07DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureManagement", "PictureManagement\PictureManagement.csproj", "{27BBC91F-4B10-4747-98FF-8F9F4E26C79B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{DDEAAA25-2733-4F40-AB10-44C06BAC07DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDEAAA25-2733-4F40-AB10-44C06BAC07DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDEAAA25-2733-4F40-AB10-44C06BAC07DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27BBC91F-4B10-4747-98FF-8F9F4E26C79B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27BBC91F-4B10-4747-98FF-8F9F4E26C79B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27BBC91F-4B10-4747-98FF-8F9F4E26C79B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27BBC91F-4B10-4747-98FF-8F9F4E26C79B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
