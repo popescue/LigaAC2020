@@ -12,6 +12,8 @@ using Services.Client;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading;
 using System.Security.Claims;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace WebApp.Controllers
 {
@@ -20,11 +22,13 @@ namespace WebApp.Controllers
     {
         private UserEventsService _userEventsService;
         private ClientEventsService _clientEventsService;
+        private IWebHostEnvironment _environment;
 
-        public EventsController(UserEventsService userEventsService, ClientEventsService clientEventsService)
+        public EventsController(UserEventsService userEventsService, ClientEventsService clientEventsService, IWebHostEnvironment environment)
         {
             _userEventsService = userEventsService;
             _clientEventsService = clientEventsService;
+            _environment = environment;
         }
 
         [HttpGet("{id}")]
@@ -83,6 +87,26 @@ namespace WebApp.Controllers
             _clientEventsService.AddEvent(crudEvent);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public IActionResult UploadFiles()
+        {
+            long size = 0;
+            var files = Request.Form.Files;
+
+            foreach (var file in files)
+            {
+                size += file.Length;
+                string filename = _environment.ContentRootPath + $@"\UploadedFiles\{file.FileName}";  // Folder-ul UploadedFiles trebuie creat manual, la acelasi nivel cu folder-ele Controllers/Models/Views
+                using (FileStream fs = System.IO.File.Create(filename))
+                {
+                    file.CopyTo(fs);
+                    fs.Flush();
+                }
+            }
+            string message = $"{files.Count} file(s) / {size} bytes uploaded successfully!";
+            return Json(message);
         }
 
         [HttpGet]
