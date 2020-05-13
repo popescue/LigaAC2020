@@ -89,6 +89,7 @@ namespace Services.Client
         {
             // Create Event 
             var e = new Event(new EventId(Guid.NewGuid().ToString().Substring(31)),
+                            new ClientId(crudEvent.ClientId),
                             new EventTitle(crudEvent.Title),
                             new EventDescription(crudEvent.Description),
                             new Location(crudEvent.Address, crudEvent.LocationType),
@@ -119,6 +120,7 @@ namespace Services.Client
         {
             // Update Event 
             var e = new Event(new EventId(crudEvent.Id),
+                            new ClientId(crudEvent.ClientId),
                             new EventTitle(crudEvent.Title),
                             new EventDescription(crudEvent.Description),
                             new Location(crudEvent.Address, crudEvent.LocationType),

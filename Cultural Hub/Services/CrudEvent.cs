@@ -21,6 +21,7 @@ namespace Services
         //public List<Uri> Pictures { get; set; }
 
         public string Id { get; set; }
+        public string ClientId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Address { get; set; }

@@ -9,6 +9,9 @@ using WebApp.Models;
 using Services;
 using Services.User;
 using Services.Client;
+using Microsoft.AspNetCore.Authorization;
+using System.Threading;
+using System.Security.Claims;
 
 namespace WebApp.Controllers
 {
@@ -60,9 +63,10 @@ namespace WebApp.Controllers
 
         [HttpPost]
         public IActionResult AddEvent(CrudEventViewModel crudEventViewModel)
-        {
+        {          
             var crudEvent = new CrudEvent()           
             {
+                ClientId = User.FindFirstValue(ClaimTypes.NameIdentifier),
                 Title = crudEventViewModel.Title,
                 Description = crudEventViewModel.Description,
                 Address = crudEventViewModel.Address,
@@ -161,6 +165,14 @@ namespace WebApp.Controllers
             _clientEventsService.DeleteEvent(eventId);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        //[Authorize(Roles = "User")]
+        public IActionResult FavoriteEvents()
+        {
+            return View();
         }
     }
 }

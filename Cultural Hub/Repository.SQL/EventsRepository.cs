@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Repository.SQL;
 using WebApp.StorageModels;
-using WebApp.Context;
 
 namespace WebApp.Repositories
 {
@@ -24,10 +23,11 @@ namespace WebApp.Repositories
             if (e.Deleted != null) return null;
 
             return new Event(new EventId(e.Id),
+                            new ClientId(e.ClientId),
                             new EventTitle(e.Title),
                             new EventDescription(e.Description),
                             new Location(e.LocationAddress, (LocationType)e.LocationType),
-                            new EventDate(e.StartsAt.Year, e.StartsAt.Month, e.StartsAt.Day, e.StartsAt.Hour, e.StartsAt.Minute),
+                            new EventDate(e.StartsAt.Year,e.StartsAt.Month,e.StartsAt.Day,e.StartsAt.Hour,e.StartsAt.Minute),
                             new EventDate(e.EndsAt.Year, e.EndsAt.Month, e.EndsAt.Day, e.EndsAt.Hour, e.EndsAt.Minute),
                             (EventType)e.Type,
                             (Audience)e.Audience,
@@ -41,12 +41,13 @@ namespace WebApp.Repositories
                 .Where(e => e.Deleted == null)
                 .Select(e =>
                         new Event(new EventId(e.Id),
-                        new EventTitle(e.Title),
+                        new ClientId(e.ClientId),
+                        new EventTitle(e.Title), 
                         new EventDescription(e.Description),
                         new Location(e.LocationAddress, (LocationType)e.LocationType),
                         new EventDate(e.StartsAt.Year, e.StartsAt.Month, e.StartsAt.Day, e.StartsAt.Hour, e.StartsAt.Minute),
                             new EventDate(e.EndsAt.Year, e.EndsAt.Month, e.EndsAt.Day, e.EndsAt.Hour, e.EndsAt.Minute),
-                        (EventType)e.Type,
+                        (EventType)e.Type, 
                         (Audience)e.Audience,
                         new EventPublishDate(e.PublishDate),
                         e.IsActive)
@@ -59,6 +60,7 @@ namespace WebApp.Repositories
             var eventStorageModel = new EventStorageModel()
             {
                 Id = e.Id.Value,
+                ClientId = e.ClientId.ClientIdValue,
                 Title = e.Title.TitleValue,
                 StartsAt = e.StartsAt.Value,
                 Description = e.Description.DescriptionValue,
@@ -75,11 +77,7 @@ namespace WebApp.Repositories
 
             _culturalHubContext.SaveChanges();
 
-            return new Event(e.Id,
-                        e.Title, e.Description,
-                        new Location(e.Location.Address, e.Location.Type),
-                        e.StartsAt, e.EndsAt, (EventType)e.Type, (Audience)e.Audience,
-                        e.PublishDate, e.IsActive);
+            return e;
         }
 
         public void EditEvent(Event e)

@@ -15,7 +15,7 @@ using Services.Client;
 using Services.User;
 using Repository.SQL;
 using WebApp.Repositories;
-using WebApp.Context;
+
 
 namespace WebApp
 {
@@ -33,8 +33,8 @@ namespace WebApp
         {
             services.AddDbContext<CulturalHubContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("CulturalHubConnection")));
-            /*services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<CulturalHubContext>();*/
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddEntityFrameworkStores<CulturalHubContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
 
@@ -45,6 +45,8 @@ namespace WebApp
             //register services
             services.AddScoped<UserEventsService, UserEventsService>();
             services.AddScoped<ClientEventsService, ClientEventsService>();
+
+            services.AddAuthorization(a => a.AddPolicy("AllowAll", b => b.RequireRole(new string[] {"User", "Client" })));
 
         }
 

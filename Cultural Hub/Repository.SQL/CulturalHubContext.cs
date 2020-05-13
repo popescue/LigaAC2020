@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebApp.StorageModels;
 
-namespace WebApp.Context
+namespace Repository.SQL
 {
     public class CulturalHubContext : IdentityDbContext<IdentityUser>
     {
