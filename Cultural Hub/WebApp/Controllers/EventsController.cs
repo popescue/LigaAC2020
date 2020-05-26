@@ -14,6 +14,8 @@ using System.Threading;
 using System.Security.Claims;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace WebApp.Controllers
 {
@@ -32,23 +34,16 @@ namespace WebApp.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Details(string id)
+        public async Task<IActionResult> Details(string id)
         {
-            var eventDetails = _userEventsService.GetUserEventDetailsById(id);
-      
-            return View(new EventDetailsViewModel()
-            {
-                Id = eventDetails.Id,
-                Title = eventDetails.Title,
-                Audience = eventDetails.Audience,
-                Description = eventDetails.Description,
-                EndsAt = eventDetails.EndsAt,
-                LocationType = eventDetails.LocationType,
-                LocationAddress = eventDetails.LocationAddress,
-                Type = eventDetails.Type,
-                StartsAt = eventDetails.StartsAt,
-                Pictures = eventDetails.Pictures
-            });
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("https://localhost:44323/");
+
+            var result = await httpClient.GetAsync($"/events/usereventdetails/{id}");
+            var content = await result.Content.ReadAsStringAsync();
+            var deserialized = JsonConvert.DeserializeObject<EventDetailsViewModel>(content);
+
+            return View(deserialized);
         }
 
         [HttpGet]
@@ -66,32 +61,90 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddEvent(CrudEventViewModel crudEventViewModel)
-        {          
-            var crudEvent = new CrudEvent()           
-            {
-                ClientId = User.FindFirstValue(ClaimTypes.NameIdentifier),
-                Title = crudEventViewModel.Title,
-                Description = crudEventViewModel.Description,
-                Address = crudEventViewModel.Address,
-                LocationType = crudEventViewModel.LocationType,
-                Audience = crudEventViewModel.Audience,
-                EndsAt = crudEventViewModel.EndsAt,
-                Type = crudEventViewModel.Type,
-                PublishDate = crudEventViewModel.PublishDate,
-                IsActive = crudEventViewModel.IsActive,
-                StartsAt = crudEventViewModel.StartsAt,
-                Pictures = crudEventViewModel.Pictures
-            };
+        public async Task<IActionResult> AddEvent(CrudEventViewModel crudEventViewModel)
+        {
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("https://localhost:44323/");
 
-            _clientEventsService.AddEvent(crudEvent);
+            var request = new HttpRequestMessage(HttpMethod.Post, "/events");
+            request.Content = new StringContent(JsonConvert.SerializeObject(crudEventViewModel));
+
+            await httpClient.SendAsync(request);
 
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditEvent(string id)
+        {
+            List<Audience> audience = Enum.GetValues(typeof(Audience)).Cast<Audience>().ToList();
+            List<EventType> eventType = Enum.GetValues(typeof(EventType)).Cast<EventType>().ToList();
+            List<LocationType> locationType = Enum.GetValues(typeof(LocationType)).Cast<LocationType>().ToList();
+
+            ViewBag.RequiredAudience = new SelectList(audience);
+            ViewBag.RequiredEventType = new SelectList(eventType);
+            ViewBag.RequiredLocationType = new SelectList(locationType);
+
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("https://localhost:44323/");
+
+            var result = await httpClient.GetAsync($"/events/clientevent/{id}");
+            var content = await result.Content.ReadAsStringAsync();
+            var deserialized = JsonConvert.DeserializeObject<CrudEventViewModel>(content);
+
+            return View(deserialized);
+        }
+
+        public async Task<IActionResult> EditEvent(CrudEventViewModel crudEventViewModel)
+        {
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("https://localhost:44323/");
+
+            var request = new HttpRequestMessage(HttpMethod.Put, $"/events/{crudEventViewModel.Id}");
+            request.Content = new StringContent(JsonConvert.SerializeObject(crudEventViewModel));
+
+            await httpClient.SendAsync(request);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteEvent(string id)
+        {
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("https://localhost:44323/");
+
+            var result = await httpClient.GetAsync($"/events/clientevent/{id}");
+            var content = await result.Content.ReadAsStringAsync();
+            var deserialized = JsonConvert.DeserializeObject<CrudEventViewModel>(content);
+
+            return View(deserialized);
+        }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("https://localhost:44323/");
+
+            var request = new HttpRequestMessage(HttpMethod.Delete, $"/events/{id}");
+            await httpClient.SendAsync(request);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        //[Authorize(Roles = "User")]
+        public IActionResult FavoriteEvents()
+        {
+            return View();
+        }
+
+
         [HttpPost]
         public IActionResult UploadFiles()
         {
+
             long size = 0;
             var files = Request.Form.Files;
 
@@ -107,96 +160,6 @@ namespace WebApp.Controllers
             }
             string message = $"{files.Count} file(s) / {size} bytes uploaded successfully!";
             return Json(message);
-        }
-
-        [HttpGet]
-        public IActionResult EditEvent(string eventId)
-        {
-            List<Audience> audience = Enum.GetValues(typeof(Audience)).Cast<Audience>().ToList();
-            List<EventType> eventType = Enum.GetValues(typeof(EventType)).Cast<EventType>().ToList();
-            List<LocationType> locationType = Enum.GetValues(typeof(LocationType)).Cast<LocationType>().ToList();
-
-            ViewBag.RequiredAudience = new SelectList(audience);
-            ViewBag.RequiredEventType = new SelectList(eventType);
-            ViewBag.RequiredLocationType = new SelectList(locationType);
-
-            var crudEvent = _clientEventsService.GetCrudEventViewModelById(eventId);
-
-            return View(new CrudEventViewModel()
-            {
-                Id = crudEvent.Id,
-                Title = crudEvent.Title,
-                Audience = crudEvent.Audience,
-                Description = crudEvent.Description,
-                EndsAt = crudEvent.EndsAt,
-                LocationType = crudEvent.LocationType,
-                Address = crudEvent.Address,
-                Type = crudEvent.Type,
-                StartsAt = crudEvent.StartsAt,
-                Pictures = crudEvent.Pictures,
-                IsActive = crudEvent.IsActive,
-                PublishDate = crudEvent.PublishDate
-            });
-        }
-
-        public IActionResult EditEvent(CrudEventViewModel crudEventViewModel)
-        {
-            var crudEvent = new CrudEvent()
-            {
-                Id = crudEventViewModel.Id,
-                Title = crudEventViewModel.Title,
-                Description = crudEventViewModel.Description,
-                Address = crudEventViewModel.Address,
-                LocationType = crudEventViewModel.LocationType,
-                Audience = crudEventViewModel.Audience,
-                EndsAt = crudEventViewModel.EndsAt,
-                Type = crudEventViewModel.Type,
-                PublishDate = crudEventViewModel.PublishDate,
-                IsActive = crudEventViewModel.IsActive,
-                StartsAt = crudEventViewModel.StartsAt,
-                Pictures = crudEventViewModel.Pictures
-            };
-
-            _clientEventsService.EditEvent(crudEvent);
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        [HttpGet]
-        public IActionResult DeleteEvent(string eventId)
-        {
-            var crudEvent = _clientEventsService.GetCrudEventViewModelById(eventId);
-
-            return View(new CrudEventViewModel()
-            {
-                Id = crudEvent.Id,
-                Title = crudEvent.Title,
-                Audience = crudEvent.Audience,
-                Description = crudEvent.Description,
-                EndsAt = crudEvent.EndsAt,
-                LocationType = crudEvent.LocationType,
-                Address = crudEvent.Address,
-                Type = crudEvent.Type,
-                StartsAt = crudEvent.StartsAt,
-                Pictures = crudEvent.Pictures,
-                IsActive = crudEvent.IsActive,
-                PublishDate = crudEvent.PublishDate
-            });
-        }
-
-        public IActionResult Delete(string eventId)
-        {
-            _clientEventsService.DeleteEvent(eventId);
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        [HttpGet]
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
-        //[Authorize(Roles = "User")]
-        public IActionResult FavoriteEvents()
-        {
-            return View();
         }
     }
 }

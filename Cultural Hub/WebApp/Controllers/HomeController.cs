@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Services;
 using Services.User;
 using WebApp.Models;
@@ -26,20 +28,16 @@ namespace WebApp.Controllers
             _userEventsService = userEventsService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View(_userEventsService
-                .GetUserEventShortInfoList()
-                .Select(e => new EventShortInfoViewModel()
-                {
-                    Id = e.Id,
-                    LocationAddress = e.LocationAddress,
-                    Pictures = e.Pictures,
-                    StartsAt = e.StartsAt,
-                    Title = e.Title
-                })
-                .ToList()
-                );
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("https://localhost:44323/");
+
+            var result = await httpClient.GetAsync("/events/usereventsshortinfo");
+            var content = await result.Content.ReadAsStringAsync();
+            var deserialized = JsonConvert.DeserializeObject<List<EventShortInfoViewModel>>(content);
+
+            return View(deserialized);
         }
 
         public IActionResult Privacy()

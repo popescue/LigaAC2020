@@ -5,10 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Repository.SQL;
+using Services.Client;
+using Services.User;
+using WebApp.Repositories;
 
 namespace PictureManagement
 {
@@ -25,6 +30,17 @@ namespace PictureManagement
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDbContext<CulturalHubContext>(
+               options => options.UseSqlServer(Configuration.GetConnectionString("CulturalHubConnection")));
+
+            // register repositories
+            services.AddScoped<IEventsRepository, EventsRepository>();
+            services.AddScoped<IPicturesRepository, PicturesRepository>();
+
+            //register services
+            services.AddScoped<UserEventsService, UserEventsService>();
+            services.AddScoped<ClientEventsService, ClientEventsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,6 +50,8 @@ namespace PictureManagement
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseStaticFiles();
 
             app.UseRouting();
 
