@@ -49,6 +49,7 @@ namespace Services.Client
             var crudEvent = new CrudEvent()
             {
                 Id = e.Id.Value,
+                ClientId = e.ClientId.ClientIdValue,
                 Title = e.Title.TitleValue,
                 StartsAt = e.StartsAt.Value,
                 Address = e.Location.Address,
@@ -72,6 +73,7 @@ namespace Services.Client
             var eventDetails = new ClientEventDetails()
             {
                 Id = e.Id.Value,
+                ClientId = e.ClientId.ClientIdValue,
                 Title = e.Title.TitleValue,
                 StartsAt = e.StartsAt.Value,
                 LocationAddress = e.Location.Address,

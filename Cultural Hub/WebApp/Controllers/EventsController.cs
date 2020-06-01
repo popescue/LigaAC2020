@@ -16,6 +16,7 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Net.Http;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace WebApp.Controllers
 {
@@ -67,7 +68,9 @@ namespace WebApp.Controllers
             httpClient.BaseAddress = new Uri("https://localhost:44323/");
 
             var request = new HttpRequestMessage(HttpMethod.Post, "/events");
-            request.Content = new StringContent(JsonConvert.SerializeObject(crudEventViewModel));
+            var content = JsonConvert.SerializeObject(crudEventViewModel);
+            request.Content = new StringContent(content, Encoding.UTF8, "application/json");
+
 
             await httpClient.SendAsync(request);
 
@@ -95,14 +98,16 @@ namespace WebApp.Controllers
             return View(deserialized);
         }
 
+        [HttpPost]
         public async Task<IActionResult> EditEvent(CrudEventViewModel crudEventViewModel)
         {
             var httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri("https://localhost:44323/");
 
             var request = new HttpRequestMessage(HttpMethod.Put, $"/events/{crudEventViewModel.Id}");
-            request.Content = new StringContent(JsonConvert.SerializeObject(crudEventViewModel));
-
+            var content = JsonConvert.SerializeObject(crudEventViewModel);
+            request.Content = new StringContent(content, Encoding.UTF8, "application/json");
+ 
             await httpClient.SendAsync(request);
 
             return RedirectToAction("Index", "Home");

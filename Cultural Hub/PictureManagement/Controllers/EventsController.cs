@@ -76,6 +76,7 @@ namespace PictureManagement.Controllers
             return new CrudEventViewModel()
             {
                 Id = crudEvent.Id,
+                ClientId = crudEvent.ClientId,
                 Title = crudEvent.Title,
                 Audience = crudEvent.Audience,
                 Description = crudEvent.Description,
@@ -120,6 +121,7 @@ namespace PictureManagement.Controllers
             var crudEvent = new CrudEvent()
             {
                 Id = id,
+                ClientId = crudEventViewModel.ClientId,
                 Title = crudEventViewModel.Title,
                 Description = crudEventViewModel.Description,
                 Address = crudEventViewModel.Address,

@@ -13,6 +13,8 @@ namespace WebApp.Models
         [Required]
         public string Id { get; set; }
 
+        public string ClientId { get; set; }
+
         [Display(Name = "Titlu")]
         [Required]
         [StringLength(100)]
