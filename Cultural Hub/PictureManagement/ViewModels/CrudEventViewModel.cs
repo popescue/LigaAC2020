@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
 using Domain;
 
-namespace WebApp.Models
+namespace PictureManagement.ViewModels
 {
     public class CrudEventViewModel
     {
-        [Required]
         public string Id { get; set; }
 
+        [Required]
         public string ClientId { get; set; }
 
         [Display(Name = "Titlu")]

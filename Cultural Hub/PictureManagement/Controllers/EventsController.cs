@@ -14,6 +14,7 @@ using System.Threading;
 using System.Security.Claims;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using PictureManagement.ViewModels;
 
 namespace PictureManagement.Controllers
 {
@@ -96,7 +97,8 @@ namespace PictureManagement.Controllers
         {          
             var crudEvent = new CrudEvent()           
             {
-                ClientId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                //ClientId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                ClientId = crudEventViewModel.ClientId,
                 Title = crudEventViewModel.Title,
                 Description = crudEventViewModel.Description,
                 Address = crudEventViewModel.Address,

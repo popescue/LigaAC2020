@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
 using Domain;
 
-namespace WebApp.Models
+namespace WebAppClient.Models
 {
     public class CrudEventViewModel
     {
-        [Required]
         public string Id { get; set; }
 
-        public string ClientId { get; set; }
+        //public string ClientId { get; set; }
 
         [Display(Name = "Titlu")]
         [Required]
@@ -56,11 +53,8 @@ namespace WebApp.Models
         [DataType(DataType.DateTime)]
         public DateTime PublishDate { get; set; }
 
-        [Display(Name = "Activ")]
-        [Required]
-        public bool IsActive { get; set; }
-        [Display(Name = "Poze")]
-        [Required]
-        public List<Uri> Pictures { get; set; }
+        [Display(Name = "Activ")] [Required] public bool IsActive { get; set; }
+
+        [Display(Name = "Poze")] [Required] public List<Uri> Pictures { get; set; }
     }
 }

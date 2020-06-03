@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace WebApp.Models
+namespace WebAppClient.Models
 {
     public class EventDetailsViewModel
     {

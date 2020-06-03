@@ -1,36 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Domain;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using WebApp.Models;
+using Newtonsoft.Json;
 using Services;
 using Services.User;
-using Services.Client;
-using Microsoft.AspNetCore.Authorization;
-using System.Threading;
-using System.Security.Claims;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
-using System.Net.Http;
-using Newtonsoft.Json;
-using System.Text;
+using WebApp.Models;
 
 namespace WebApp.Controllers
 {
-
     public class EventsController : Controller
     {
+        private readonly IWebHostEnvironment _environment;
         private UserEventsService _userEventsService;
-        private ClientEventsService _clientEventsService;
-        private IWebHostEnvironment _environment;
 
-        public EventsController(UserEventsService userEventsService, ClientEventsService clientEventsService, IWebHostEnvironment environment)
+        public EventsController(UserEventsService userEventsService, IWebHostEnvironment environment)
         {
             _userEventsService = userEventsService;
-            _clientEventsService = clientEventsService;
             _environment = environment;
         }
 
@@ -47,95 +39,109 @@ namespace WebApp.Controllers
             return View(deserialized);
         }
 
-        [HttpGet]
-        public IActionResult AddEvent()
-        {
-            List<Audience> audience = Enum.GetValues(typeof(Audience)).Cast<Audience>().ToList();
-            List<EventType> eventType = Enum.GetValues(typeof(EventType)).Cast<EventType>().ToList();
-            List<LocationType> locationType = Enum.GetValues(typeof(LocationType)).Cast<LocationType>().ToList();
+        //[HttpGet]
+        //public IActionResult AddEvent()
+        //{
+        //    var audience = Enum.GetValues(typeof(Audience)).Cast<Audience>().ToList();
+        //    var eventType = Enum.GetValues(typeof(EventType)).Cast<EventType>().ToList();
+        //    var locationType = Enum.GetValues(typeof(LocationType)).Cast<LocationType>().ToList();
 
-            ViewBag.RequiredAudience = new SelectList(audience);
-            ViewBag.RequiredEventType = new SelectList(eventType);
-            ViewBag.RequiredLocationType = new SelectList(locationType);
+        //    ViewBag.RequiredAudience = new SelectList(audience);
+        //    ViewBag.RequiredEventType = new SelectList(eventType);
+        //    ViewBag.RequiredLocationType = new SelectList(locationType);
 
-            return View();
-        }
+        //    return View();
+        //}
 
-        [HttpPost]
-        public async Task<IActionResult> AddEvent(CrudEventViewModel crudEventViewModel)
-        {
-            var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("https://localhost:44323/");
+        //[HttpPost]
+        //public async Task<IActionResult> AddEvent(CrudEventViewModel crudEventViewModel)
+        //{
+        //    // Translate input model into lower layer request (model)
+        //    var serviceModel = FromViewModel(crudEventViewModel);
 
-            var request = new HttpRequestMessage(HttpMethod.Post, "/events");
-            var content = JsonConvert.SerializeObject(crudEventViewModel);
-            request.Content = new StringContent(content, Encoding.UTF8, "application/json");
+        //    // Call service responsible with required use case (creating events)
+        //    ResponseModel responseModel = _clientEventsServiceMvc.AddEvent(serviceModel);
 
+        //    // Translate lower layer response (model)
+        //    if (responseModel.IsSuccess)
+        //        return RedirectToAction("Index", "Home");
+        //    //return Ok(FromServiceModel(responseModel));
+        //    return Problem();
 
-            await httpClient.SendAsync(request);
+        //    //var httpClient = new HttpClient();
+        //    //httpClient.BaseAddress = new Uri("https://localhost:44323/");
 
-            return RedirectToAction("Index", "Home");
-        }
+        //    ////crudEventViewModel.Id = new EventId(Guid.NewGuid().ToString().Substring(31));
+        //    //crudEventViewModel.ClientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        [HttpGet]
-        public async Task<IActionResult> EditEvent(string id)
-        {
-            List<Audience> audience = Enum.GetValues(typeof(Audience)).Cast<Audience>().ToList();
-            List<EventType> eventType = Enum.GetValues(typeof(EventType)).Cast<EventType>().ToList();
-            List<LocationType> locationType = Enum.GetValues(typeof(LocationType)).Cast<LocationType>().ToList();
+        //    //var request = new HttpRequestMessage(HttpMethod.Post, "/events");
+        //    //var content = JsonConvert.SerializeObject(crudEventViewModel);
+        //    //request.Content = new StringContent(content, Encoding.UTF8, "application/json");
 
-            ViewBag.RequiredAudience = new SelectList(audience);
-            ViewBag.RequiredEventType = new SelectList(eventType);
-            ViewBag.RequiredLocationType = new SelectList(locationType);
+        //    //var response = await httpClient.SendAsync(request);
 
-            var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("https://localhost:44323/");
+        //    //return RedirectToAction("Index", "Home");
+        //}
 
-            var result = await httpClient.GetAsync($"/events/clientevent/{id}");
-            var content = await result.Content.ReadAsStringAsync();
-            var deserialized = JsonConvert.DeserializeObject<CrudEventViewModel>(content);
+        //[HttpGet]
+        //public async Task<IActionResult> EditEvent(string id)
+        //{
+        //    var audience = Enum.GetValues(typeof(Audience)).Cast<Audience>().ToList();
+        //    var eventType = Enum.GetValues(typeof(EventType)).Cast<EventType>().ToList();
+        //    var locationType = Enum.GetValues(typeof(LocationType)).Cast<LocationType>().ToList();
 
-            return View(deserialized);
-        }
+        //    ViewBag.RequiredAudience = new SelectList(audience);
+        //    ViewBag.RequiredEventType = new SelectList(eventType);
+        //    ViewBag.RequiredLocationType = new SelectList(locationType);
 
-        [HttpPost]
-        public async Task<IActionResult> EditEvent(CrudEventViewModel crudEventViewModel)
-        {
-            var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("https://localhost:44323/");
+        //    var httpClient = new HttpClient();
+        //    httpClient.BaseAddress = new Uri("https://localhost:44323/");
 
-            var request = new HttpRequestMessage(HttpMethod.Put, $"/events/{crudEventViewModel.Id}");
-            var content = JsonConvert.SerializeObject(crudEventViewModel);
-            request.Content = new StringContent(content, Encoding.UTF8, "application/json");
- 
-            await httpClient.SendAsync(request);
+        //    var result = await httpClient.GetAsync($"/events/clientevent/{id}");
+        //    var content = await result.Content.ReadAsStringAsync();
+        //    var deserialized = JsonConvert.DeserializeObject<CrudEventViewModel>(content);
 
-            return RedirectToAction("Index", "Home");
-        }
+        //    return View(deserialized);
+        //}
 
-        [HttpGet]
-        public async Task<IActionResult> DeleteEvent(string id)
-        {
-            var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("https://localhost:44323/");
+        //[HttpPost]
+        //public async Task<IActionResult> EditEvent(CrudEventViewModel crudEventViewModel)
+        //{
+        //    var httpClient = new HttpClient();
+        //    httpClient.BaseAddress = new Uri("https://localhost:44323/");
 
-            var result = await httpClient.GetAsync($"/events/clientevent/{id}");
-            var content = await result.Content.ReadAsStringAsync();
-            var deserialized = JsonConvert.DeserializeObject<CrudEventViewModel>(content);
+        //    var request = new HttpRequestMessage(HttpMethod.Put, $"/events/{crudEventViewModel.Id}");
+        //    var content = JsonConvert.SerializeObject(crudEventViewModel);
+        //    request.Content = new StringContent(content, Encoding.UTF8, "application/json");
 
-            return View(deserialized);
-        }
+        //    await httpClient.SendAsync(request);
 
-        public async Task<IActionResult> Delete(string id)
-        {
-            var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("https://localhost:44323/");
+        //    return RedirectToAction("Index", "Home");
+        //}
 
-            var request = new HttpRequestMessage(HttpMethod.Delete, $"/events/{id}");
-            await httpClient.SendAsync(request);
+        //[HttpGet]
+        //public async Task<IActionResult> DeleteEvent(string id)
+        //{
+        //    var httpClient = new HttpClient();
+        //    httpClient.BaseAddress = new Uri("https://localhost:44323/");
 
-            return RedirectToAction("Index", "Home");
-        }
+        //    var result = await httpClient.GetAsync($"/events/clientevent/{id}");
+        //    var content = await result.Content.ReadAsStringAsync();
+        //    var deserialized = JsonConvert.DeserializeObject<CrudEventViewModel>(content);
+
+        //    return View(deserialized);
+        //}
+
+        //public async Task<IActionResult> Delete(string id)
+        //{
+        //    var httpClient = new HttpClient();
+        //    httpClient.BaseAddress = new Uri("https://localhost:44323/");
+
+        //    var request = new HttpRequestMessage(HttpMethod.Delete, $"/events/{id}");
+        //    await httpClient.SendAsync(request);
+
+        //    return RedirectToAction("Index", "Home");
+        //}
 
         [HttpGet]
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
@@ -145,26 +151,27 @@ namespace WebApp.Controllers
             return View();
         }
 
+        //[HttpPost]
+        //public IActionResult UploadFiles()
+        //{
+        //    long size = 0;
+        //    var files = Request.Form.Files;
 
-        [HttpPost]
-        public IActionResult UploadFiles()
-        {
+        //    foreach (var file in files)
+        //    {
+        //        size += file.Length;
+        //        var filename =
+        //            _environment.ContentRootPath +
+        //            $@"\UploadedFiles\{file.FileName}"; // Folder-ul UploadedFiles trebuie creat manual, la acelasi nivel cu folder-ele Controllers/Models/Views
+        //        using (var fs = System.IO.File.Create(filename))
+        //        {
+        //            file.CopyTo(fs);
+        //            fs.Flush();
+        //        }
+        //    }
 
-            long size = 0;
-            var files = Request.Form.Files;
-
-            foreach (var file in files)
-            {
-                size += file.Length;
-                string filename = _environment.ContentRootPath + $@"\UploadedFiles\{file.FileName}";  // Folder-ul UploadedFiles trebuie creat manual, la acelasi nivel cu folder-ele Controllers/Models/Views
-                using (FileStream fs = System.IO.File.Create(filename))
-                {
-                    file.CopyTo(fs);
-                    fs.Flush();
-                }
-            }
-            string message = $"{files.Count} file(s) / {size} bytes uploaded successfully!";
-            return Json(message);
-        }
+        //    var message = $"{files.Count} file(s) / {size} bytes uploaded successfully!";
+        //    return Json(message);
+        //}
     }
 }

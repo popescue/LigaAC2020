@@ -1,17 +1,18 @@
-﻿@model WebApp.Models.CrudEventViewModel
+﻿@model CrudEventViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Create</h1>
+<h1>Edit</h1>
 
-<h4>EventCreateModel</h4>
+<h4>EventEditModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddEvent">
+        <form asp-action="EditEvent">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(x => x.Id)
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -63,26 +64,20 @@
                     <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
                 </label>
             </div>
-            <div class="container" style="display: flex; justify-content: center">
-                <div asp-for="Pictures" class="form-control" id="fileBasket">
-                    Drag-n-Drop files here!
-                </div>
-            </div>
             <div class="form-group">
                 <label asp-for="Pictures" class="control-label"></label>
-                <input asp-for="Pictures" class="form-control" />
-                <input asp-for="Pictures" class="form-control" />
-                <input asp-for="Pictures" class="form-control" />
-                <input asp-for="Pictures" class="form-control" />
-                <input asp-for="Pictures" class="form-control" />
-                <input asp-for="Pictures" class="form-control" />
-                <input asp-for="Pictures" class="form-control" />
-                <input asp-for="Pictures" class="form-control" />
+
+                @foreach (var item in Model.Pictures)
+                {
+                    int i = 0;
+                    <input asp-for="Pictures[i]" class="form-control" />
+                    i++;
+                }
                 <input asp-for="Pictures" class="form-control" />
                 <span asp-validation-for="Pictures" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Edit" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -94,52 +89,4 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            $("#fileBasket").on("dragenter", function (evt) {
-                evt.preventDefault();
-                evt.stopPropagation();
-            });
-
-            $("#fileBasket").on("dragover", function (evt) {
-                evt.preventDefault();
-                evt.stopPropagation();
-            });
-
-            $("#fileBasket").on("drop", function (evt) {
-                evt.preventDefault();
-                evt.stopPropagation();
-
-                var files = evt.originalEvent.dataTransfer.files;
-                var fileNames = "";
-                if (files.length > 0) {
-                    fileNames += "Uploading <br/>"
-                    for (var i = 0; i < files.length; i++) {
-                        fileNames += files[i].name + "<br/>";
-                    }
-                }
-                $("#fileBasket").html(fileNames)
-
-                var data = new FormData();
-                for (var i = 0; i < files.length; i++) {
-                    data.append(files[i].name, files[i]);
-                }
-
-                $.ajax({
-                    type: "POST",
-                    url: "/Events/UploadFiles", // url: "/NumeController/NumeActiune"
-                    contentType: false,
-                    processData: false,
-                    data: data,
-                    success: function (message) {
-                        $("#fileBasket").html(message);
-                    },
-                    error: function () {
-                        $("#fileBasket").html("The files couldn't be uploaded!");
-                    },
-                });
-            });
-        });
-    </script>
 }
