@@ -21,7 +21,7 @@ namespace WebApp.Repositories
         {
             return _culturalHubContext.Pictures
                 .Where(p => p.EventId == eventId)
-                .Select(x => new Picture(x.EventId, x.Description, x.Link))
+                .Select(x => new Picture(x.EventId, x.Description, new Uri(x.Link)))
                 .ToList();
         }
 
@@ -31,7 +31,7 @@ namespace WebApp.Repositories
             {
                 EventId = p.EventId,
                 Description = p.Description,
-                Link = p.Link
+                Link = p.Link.ToString()
             }).ToList();
 
             _culturalHubContext.Pictures.AddRange(picturesStorageModel);

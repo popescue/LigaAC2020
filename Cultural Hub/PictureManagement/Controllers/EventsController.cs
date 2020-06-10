@@ -33,11 +33,27 @@ namespace PictureManagement.Controllers
             _environment = environment;
         }
 
+        [HttpGet("clienteventsshortinfo/{clientId}")]
+        public List<EventShortInfoViewModel> GetClientEventsShortInfoList(Guid clientId)
+        {
+            return _clientEventsService
+                .GetEventShortInfoList(clientId)
+                .Select(e => new EventShortInfoViewModel()
+                {
+                    Id = e.Id,
+                    LocationAddress = e.LocationAddress,
+                    Pictures = e.Pictures,
+                    StartsAt = e.StartsAt,
+                    Title = e.Title
+                })
+                .ToList();
+        }
+
         [HttpGet("usereventsshortinfo")]
         public List<EventShortInfoViewModel> GetUserEventsShortInfoList()
         {
             return _userEventsService
-                .GetUserEventShortInfoList()
+                .GetEventShortInfoList()
                 .Select(e => new EventShortInfoViewModel()
                 {
                     Id = e.Id,

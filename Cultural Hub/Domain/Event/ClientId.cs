@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Domain
 {
     public class ClientId
     {
-        public string ClientIdValue { get; }
-        public ClientId(string ClientIdValue)
+        public ClientId(Guid value)
         {
-            if (string.IsNullOrWhiteSpace(ClientIdValue)) throw new ArgumentException("Id cannot be null or blank", "ClientIdValue");
+            if (value == Guid.Empty)
+                throw new ArgumentException("Id cannot be empty", nameof(value));
 
-            this.ClientIdValue = ClientIdValue;
+            Value = value;
         }
+
+        public Guid Value { get; }
     }
 }

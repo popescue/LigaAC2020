@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,19 +33,20 @@ namespace WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<CulturalHubContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("CulturalHubConnection")));
+                options => options.UseSqlServer(Configuration.GetConnectionString("CulturalHubConnection")).ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning)));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<CulturalHubContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
 
             // register repositories
+            //services.AddScoped<IUserEventsReader, UserEventsReader>();
             services.AddScoped<IEventsRepository, EventsRepository>();
             services.AddScoped<IPicturesRepository, PicturesRepository>();
 
             //register services
-            services.AddScoped<UserEventsService, UserEventsService>();
-            services.AddScoped<ClientEventsService, ClientEventsService>();
+            //services.AddScoped<UserEventsService, UserEventsService>();
+            //services.AddScoped<ClientEventsService, ClientEventsService>();
 
             services.AddAuthorization(a => a.AddPolicy("AllowAll", b => b.RequireRole(new string[] {"User", "Client" })));
 

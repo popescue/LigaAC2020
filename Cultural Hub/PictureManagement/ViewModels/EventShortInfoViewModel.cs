@@ -21,6 +21,6 @@ namespace WebApp.Models
         public DateTime StartsAt { get; set; }
 
         [Display(Name = "Poze")]
-        public List<Uri> Pictures { get; set; }
+        public IEnumerable<Uri> Pictures { get; set; }
     }
 }

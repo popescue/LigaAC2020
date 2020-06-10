@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Services;
-using Services.User;
 using WebApp.Models;
 
 
@@ -17,15 +16,12 @@ namespace WebApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly UserEventsService _userEventsService;
 
         public HomeController(
-            ILogger<HomeController> logger,
-            UserEventsService userEventsService
+            ILogger<HomeController> logger
             )
         {
             _logger = logger;
-            _userEventsService = userEventsService;
         }
 
         public async Task<IActionResult> IndexAsync()

@@ -11,8 +11,6 @@ namespace WebApp.Repositories
     {
         Event GetEventById(string eventId);
 
-        List<Event> GetEvents();
-
         Event AddEvent(Event e);
 
         void EditEvent(Event e);

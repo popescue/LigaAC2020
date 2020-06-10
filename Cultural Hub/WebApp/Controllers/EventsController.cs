@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using Services;
-using Services.User;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -18,11 +17,9 @@ namespace WebApp.Controllers
     public class EventsController : Controller
     {
         private readonly IWebHostEnvironment _environment;
-        private UserEventsService _userEventsService;
 
-        public EventsController(UserEventsService userEventsService, IWebHostEnvironment environment)
+        public EventsController(IWebHostEnvironment environment)
         {
-            _userEventsService = userEventsService;
             _environment = environment;
         }
 

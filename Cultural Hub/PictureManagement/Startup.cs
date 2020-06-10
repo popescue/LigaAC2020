@@ -34,8 +34,10 @@ namespace PictureManagement
             services.AddDbContext<CulturalHubContext>(
                options => options.UseSqlServer(Configuration.GetConnectionString("CulturalHubConnection")));
 
-            // register repositories
-            services.AddScoped<IEventsRepository, EventsRepository>();
+			// register repositories
+			services.AddScoped<IUserEventsReader, UserEventsReader>();
+			services.AddScoped<IClientEventsReader, ClientEventsReader>();
+			services.AddScoped<IEventsRepository, EventsRepository>();
             services.AddScoped<IPicturesRepository, PicturesRepository>();
 
             //register services

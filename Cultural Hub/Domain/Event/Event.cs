@@ -16,7 +16,11 @@ namespace Domain
         public Audience Audience { get; }
         public EventPublishDate PublishDate { get; }
         public bool IsActive { get; }
-        public bool IsPublished { get; }
+
+        public bool IsPublished(DateTime now)
+        {
+            return PublishDate.IsPublished(now);
+        }
 
         public Event(EventId id, ClientId clientId, EventTitle title, EventDescription description, Location location, EventDate startsAt, EventDate endsAt, EventType type, Audience audience, EventPublishDate publishDate, bool isActive)
         {

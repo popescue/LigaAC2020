@@ -8,7 +8,7 @@ namespace Services.Client
     {
         public string Id { get; set; }
 
-        public string ClientId { get; set; }
+        public Guid ClientId { get; set; }
 
         public string Title { get; set; }
 

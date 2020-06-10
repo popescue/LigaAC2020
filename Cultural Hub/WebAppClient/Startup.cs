@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,7 +30,7 @@ namespace WebAppClient
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<CulturalHubContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("CulturalHubConnection")));
+                options => options.UseSqlServer(Configuration.GetConnectionString("CulturalHubConnection")).ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning)));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<CulturalHubContext>();
             services.AddControllersWithViews();
@@ -41,8 +42,8 @@ namespace WebAppClient
 
             //register services
             services.AddScoped<ClientEventsServiceMvc>();
-            services.AddScoped<UserEventsService, UserEventsService>();
-            services.AddScoped<ClientEventsService, ClientEventsService>();
+            //services.AddScoped<UserEventsService, UserEventsService>();
+            //services.AddScoped<ClientEventsService, ClientEventsService>();
 
             services.AddAuthorization(a => a.AddPolicy("AllowAll", b => b.RequireRole("User", "Client")));
         }

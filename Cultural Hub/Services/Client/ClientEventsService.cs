@@ -2,41 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using Domain;
+using Services.User;
 using WebApp.Repositories;
 
 namespace Services.Client
 {
     public class ClientEventsService
     {
+        private readonly IClientEventsReader _eventsReader;
         private readonly IEventsRepository _eventsRepository;
         private readonly IPicturesRepository _picturesRepository;
 
         public ClientEventsService(
             IEventsRepository eventsRepository,
+            IClientEventsReader eventsReader,
             IPicturesRepository picturesRepository
         )
         {
             _eventsRepository = eventsRepository;
+            _eventsReader = eventsReader;
             _picturesRepository = picturesRepository;
         }
 
-        public List<ClientEventShortInfo> GetClientEventShortInfoList()
+        public IEnumerable<UserEventShortInfo> GetEventShortInfoList(Guid clientId)
         {
-            var eventShortInfoList = _eventsRepository.GetEvents().Select(e =>
-            {
-                var eventShortInfo = new ClientEventShortInfo
+            var eventsShortInfo = _eventsReader.GetEvents(clientId)
+                .Select(e => new UserEventShortInfo
                 {
-                    Id = e.Id.Value,
-                    Title = e.Title.TitleValue,
-                    StartsAt = e.StartsAt.Value,
-                    LocationAddress = e.Location.Address,
-                    Pictures = _picturesRepository.GetPicturesForEvent(e.Id.Value).Select(p => p.Link).ToList()
-                };
+                    ClientId = e.Client,
+                    Title = e.Title,
+                    StartsAt = e.StartsAt,
+                    Pictures = e.Pictures.Select(x => new Uri(x.Link)),
+                    Id = e.Id,
+                    LocationAddress = e.LocationAddress
+                }).ToList();
 
-                return eventShortInfo;
-            }).ToList();
-
-            return eventShortInfoList;
+            return eventsShortInfo;
         }
 
         public CrudEvent GetCrudEventViewModelById(string eventId)
@@ -46,7 +47,7 @@ namespace Services.Client
             var crudEvent = new CrudEvent
             {
                 Id = e.Id.Value,
-                ClientId = e.ClientId.ClientIdValue,
+                ClientId = e.ClientId.Value,
                 Title = e.Title.TitleValue,
                 StartsAt = e.StartsAt.Value,
                 Address = e.Location.Address,
@@ -57,7 +58,7 @@ namespace Services.Client
                 Type = e.Type,
                 Pictures = _picturesRepository.GetPicturesForEvent(e.Id.Value).Select(p => p.Link).ToList(),
                 IsActive = e.IsActive,
-                PublishDate = e.PublishDate.PublishDateValue
+                PublishDate = e.PublishDate.Value
             };
 
             return crudEvent;
@@ -70,7 +71,7 @@ namespace Services.Client
             var eventDetails = new ClientEventDetails
             {
                 Id = e.Id.Value,
-                ClientId = e.ClientId.ClientIdValue,
+                ClientId = e.ClientId.Value,
                 Title = e.Title.TitleValue,
                 StartsAt = e.StartsAt.Value,
                 LocationAddress = e.Location.Address,
@@ -153,5 +154,10 @@ namespace Services.Client
             // Delete Pictures 
             _picturesRepository.SoftDeleteAllPicturesFromEvent(eventId);
         }
+    }
+
+    public interface IClientEventsReader
+    {
+        IEnumerable<EventWithPictures> GetEvents(Guid clientId);
     }
 }

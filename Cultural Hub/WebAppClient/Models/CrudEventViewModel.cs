@@ -10,9 +10,9 @@ namespace WebAppClient.Models
     {
         public string Id { get; set; }
 
-        //public string ClientId { get; set; }
+		public string ClientId { get; set; }
 
-        [Display(Name = "Titlu")]
+		[Display(Name = "Titlu")]
         [Required]
         [StringLength(100)]
         public string Title { get; set; }

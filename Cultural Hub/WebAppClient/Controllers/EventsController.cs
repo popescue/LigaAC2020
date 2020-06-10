@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,11 +18,11 @@ using WebAppClient.Models;
 
 namespace WebAppClient.Controllers
 {
+    [Authorize]
     public class EventsController : Controller
     {
         private readonly ClientEventsServiceMvc _clientEventsServiceMvc;
         private readonly IWebHostEnvironment _environment;
-        private UserEventsService _userEventsService;
 
         public EventsController(ClientEventsServiceMvc clientEventsServiceMvc, IWebHostEnvironment environment)
         {
@@ -29,18 +30,18 @@ namespace WebAppClient.Controllers
             _environment = environment;
         }
 
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> Details(string id)
-        //{
-        //    var httpClient = new HttpClient();
-        //    httpClient.BaseAddress = new Uri("https://localhost:44323/");
+        [HttpGet("[controller]/{id}")]
+        public async Task<IActionResult> Details(string id)
+        {
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("https://localhost:44323/");
 
-        //    var result = await httpClient.GetAsync($"/events/usereventdetails/{id}");
-        //    var content = await result.Content.ReadAsStringAsync();
-        //    var deserialized = JsonConvert.DeserializeObject<EventDetailsViewModel>(content);
+            var result = await httpClient.GetAsync($"/events/usereventdetails/{id}");
+            var content = await result.Content.ReadAsStringAsync();
+            var deserialized = JsonConvert.DeserializeObject<EventDetailsViewModel>(content);
 
-        //    return View(deserialized);
-        //}
+            return View(deserialized);
+        }
 
         [HttpGet]
         public IActionResult AddEvent()
@@ -86,41 +87,41 @@ namespace WebAppClient.Controllers
             //return RedirectToAction("Index", "Home");
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> EditEvent(string id)
-        //{
-        //    var audience = Enum.GetValues(typeof(Audience)).Cast<Audience>().ToList();
-        //    var eventType = Enum.GetValues(typeof(EventType)).Cast<EventType>().ToList();
-        //    var locationType = Enum.GetValues(typeof(LocationType)).Cast<LocationType>().ToList();
+        [HttpGet]
+        public async Task<IActionResult> EditEvent(string id)
+        {
+            var audience = Enum.GetValues(typeof(Audience)).Cast<Audience>().ToList();
+            var eventType = Enum.GetValues(typeof(EventType)).Cast<EventType>().ToList();
+            var locationType = Enum.GetValues(typeof(LocationType)).Cast<LocationType>().ToList();
 
-        //    ViewBag.RequiredAudience = new SelectList(audience);
-        //    ViewBag.RequiredEventType = new SelectList(eventType);
-        //    ViewBag.RequiredLocationType = new SelectList(locationType);
+            ViewBag.RequiredAudience = new SelectList(audience);
+            ViewBag.RequiredEventType = new SelectList(eventType);
+            ViewBag.RequiredLocationType = new SelectList(locationType);
 
-        //    var httpClient = new HttpClient();
-        //    httpClient.BaseAddress = new Uri("https://localhost:44323/");
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("https://localhost:44323/");
 
-        //    var result = await httpClient.GetAsync($"/events/clientevent/{id}");
-        //    var content = await result.Content.ReadAsStringAsync();
-        //    var deserialized = JsonConvert.DeserializeObject<CrudEventViewModel>(content);
+            var result = await httpClient.GetAsync($"/events/clientevent/{id}");
+            var content = await result.Content.ReadAsStringAsync();
+            var deserialized = JsonConvert.DeserializeObject<CrudEventViewModel>(content);
 
-        //    return View(deserialized);
-        //}
+            return View(deserialized);
+        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> EditEvent(CrudEventViewModel crudEventViewModel)
-        //{
-        //    var httpClient = new HttpClient();
-        //    httpClient.BaseAddress = new Uri("https://localhost:44323/");
+        [HttpPost]
+        public async Task<IActionResult> EditEvent(CrudEventViewModel crudEventViewModel)
+        {
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("https://localhost:44323/");
 
-        //    var request = new HttpRequestMessage(HttpMethod.Put, $"/events/{crudEventViewModel.Id}");
-        //    var content = JsonConvert.SerializeObject(crudEventViewModel);
-        //    request.Content = new StringContent(content, Encoding.UTF8, "application/json");
+            var request = new HttpRequestMessage(HttpMethod.Put, $"/events/{crudEventViewModel.Id}");
+            var content = JsonConvert.SerializeObject(crudEventViewModel);
+            request.Content = new StringContent(content, Encoding.UTF8, "application/json");
 
-        //    await httpClient.SendAsync(request);
+            await httpClient.SendAsync(request);
 
-        //    return RedirectToAction("Index", "Home");
-        //}
+            return RedirectToAction("Index", "Home");
+        }
 
         //[HttpGet]
         //public async Task<IActionResult> DeleteEvent(string id)
@@ -173,7 +174,7 @@ namespace WebAppClient.Controllers
         {
             return new CrudEvent
             {
-                ClientId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                ClientId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)),
                 Address = crudEventViewModel.Address,
                 Audience = crudEventViewModel.Audience,
                 Description = crudEventViewModel.Description,

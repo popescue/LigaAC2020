@@ -10,7 +10,7 @@ namespace Repository.SQL
     {
         public CulturalHubContext(DbContextOptions<CulturalHubContext> options) : base(options)
         {
-
+            
         }
 
         public DbSet<EventStorageModel> Events { get; set; }

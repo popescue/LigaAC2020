@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Services
 {
@@ -13,6 +14,8 @@ namespace Services
 
         public DateTime StartsAt { get; set; }
 
-        public List<Uri> Pictures { get; set; }
+        public IEnumerable<Uri> Pictures { get; set; }
+
+        public Guid ClientId { get; set; }
     }
 }
