@@ -1,18 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Repository.SQL;
-using Services.Client;
-using Services.User;
-using WebApp.Repositories;
+using WebAppClient.Areas.Identity.Pages.Account;
 using WebAppClient.Controllers;
 
 namespace WebAppClient
@@ -29,23 +27,25 @@ namespace WebAppClient
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CulturalHubContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("CulturalHubConnection")).ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning)));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services
+                .AddDbContext<CulturalHubContext>(
+                    options => options.UseSqlServer(Configuration.GetConnectionString("CulturalHubConnection")));
+
+            services
+                .AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<CulturalHubContext>();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            // register repositories
-            services.AddScoped<IEventsRepository, EventsRepository>();
-            services.AddScoped<IPicturesRepository, PicturesRepository>();
-
             //register services
             services.AddScoped<ClientEventsServiceMvc>();
-            //services.AddScoped<UserEventsService, UserEventsService>();
-            //services.AddScoped<ClientEventsService, ClientEventsService>();
 
-            services.AddAuthorization(a => a.AddPolicy("AllowAll", b => b.RequireRole("User", "Client")));
+            services.AddAuthorization(a => a.AddPolicy("AllowAll", b =>
+            {
+                //b.AddRequirements(new NameAuthorizationRequirement("aaa@bbb.ccc"));
+				var authorizationPolicyBuilder = b.RequireRole("Client");
+			}));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

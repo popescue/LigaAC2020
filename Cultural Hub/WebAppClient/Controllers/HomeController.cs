@@ -7,30 +7,18 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Services.User;
 using WebAppClient.Models;
 
 namespace WebAppClient.Controllers
 {
-    [Authorize]
+    [Authorize("AllowAll")]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly UserEventsService _userEventsService;
-
-        public HomeController(
-            ILogger<HomeController> logger,
-            UserEventsService userEventsService
-        )
-        {
-            _logger = logger;
-            _userEventsService = userEventsService;
-        }
-
         public async Task<IActionResult> IndexAsync()
         {
+            var u = User;
+
             var httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri("https://localhost:44323/");
 

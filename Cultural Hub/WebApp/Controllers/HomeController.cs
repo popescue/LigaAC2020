@@ -4,12 +4,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Services;
 using WebApp.Models;
-
 
 namespace WebApp.Controllers
 {
@@ -19,11 +18,13 @@ namespace WebApp.Controllers
 
         public HomeController(
             ILogger<HomeController> logger
-            )
+        )
         {
             _logger = logger;
         }
 
+        //[AllowAnonymous]
+        //[Authorize("AllowAll")]
         public async Task<IActionResult> IndexAsync()
         {
             var httpClient = new HttpClient();

@@ -1,25 +1,37 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Services;
-using Services.Client;
-using Services.User;
 using Repository.SQL;
 using WebApp.Repositories;
 
-
 namespace WebApp
 {
+    public class CulturalHubContextFactory : IDesignTimeDbContextFactory<CulturalHubContext>
+    {
+        public CulturalHubContext CreateDbContext(string[] args)
+        {
+
+            IConfiguration config = new ConfigurationBuilder()
+                .AddEnvironmentVariables()
+                .Build();
+            var optionsBuilder = new DbContextOptionsBuilder<CulturalHubContext>();
+            var connectionString = config.GetConnectionString("CulturalHubConnection");
+            optionsBuilder.UseSqlServer(connectionString);
+
+            return new CulturalHubContext(optionsBuilder.Options);
+        }
+    }
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -33,9 +45,10 @@ namespace WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<CulturalHubContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("CulturalHubConnection")).ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning)));
+                options => options.UseSqlServer(Configuration.GetConnectionString("CulturalHubConnection")));
+
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<CulturalHubContext>();
+                .AddEntityFrameworkStores<CulturalHubContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
 
@@ -48,8 +61,7 @@ namespace WebApp
             //services.AddScoped<UserEventsService, UserEventsService>();
             //services.AddScoped<ClientEventsService, ClientEventsService>();
 
-            services.AddAuthorization(a => a.AddPolicy("AllowAll", b => b.RequireRole(new string[] {"User", "Client" })));
-
+            services.AddAuthorization(a => a.AddPolicy("AllowAll", b => b.RequireRole("User")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +77,7 @@ namespace WebApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -76,8 +89,8 @@ namespace WebApp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

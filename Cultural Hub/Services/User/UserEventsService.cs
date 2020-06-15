@@ -7,15 +7,17 @@ namespace Services.User
 {
     public class UserEventsService
     {
-        private readonly IEventsRepository _eventsRepository;
         private readonly IUserEventsReader _eventsReader;
+        private readonly IEventsRepository _eventsRepository;
         private readonly IPicturesRepository _picturesRepository;
 
-        public UserEventsService(IEventsRepository eventsRepository, IUserEventsReader eventsReader, IPicturesRepository picturesRepository)
+        public UserEventsService(IEventsRepository eventsRepository, IUserEventsReader eventsReader,
+            IPicturesRepository picturesRepository)
         {
             _eventsRepository = eventsRepository;
-            _eventsReader = eventsReader;
             _picturesRepository = picturesRepository;
+
+            _eventsReader = eventsReader;
         }
 
         public UserEventDetails GetUserEventDetailsById(string eventId)
@@ -41,7 +43,7 @@ namespace Services.User
 
         public IEnumerable<UserEventShortInfo> GetEventShortInfoList()
         {
-                return _eventsReader.GetEvents()
+            return _eventsReader.GetEvents()
                 .Select(e => new UserEventShortInfo
                 {
                     ClientId = e.Client,
@@ -51,25 +53,6 @@ namespace Services.User
                     Id = e.Id,
                     LocationAddress = e.LocationAddress
                 }).ToList();
-
-            //var eventsShortInfo = _eventsRepository.GetEvents()
-            //    .Where(e => e.IsActive && e.IsPublished(DateTime.Now))
-            //    .Select(e =>
-            //    {
-            //        var eventShortInfo = new UserEventShortInfo
-            //        {
-            //            Id = e.Id.Value,
-            //            ClientId = e.ClientId.Value,
-            //            Title = e.Title.TitleValue,
-            //            StartsAt = e.StartsAt.Value,
-            //            LocationAddress = e.Location.Address,
-            //            Pictures = _picturesRepository.GetPicturesForEvent(e.Id.Value).Select(p => p.Link).ToList()
-            //        };
-
-            //        return eventShortInfo;
-            //    }).ToList();
-
-            //return eventsShortInfo;
         }
     }
 

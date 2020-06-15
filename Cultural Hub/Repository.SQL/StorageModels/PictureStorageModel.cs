@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace WebApp.StorageModels
@@ -15,5 +16,7 @@ namespace WebApp.StorageModels
         public string Link { get; set; }
 
         public DateTime? Deleted { get; set; }
+
+        [ForeignKey("EventId")] public EventStorageModel Event { get; set; }
     }
 }

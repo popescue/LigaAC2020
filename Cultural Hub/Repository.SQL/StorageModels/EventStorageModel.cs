@@ -7,6 +7,7 @@ namespace WebApp.StorageModels
     public class EventStorageModel
     {
         public string Id { get; set; }
+
         public Guid ClientId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -19,5 +20,6 @@ namespace WebApp.StorageModels
         public DateTime PublishDate { get; set; }
         public bool IsActive { get; set; }
         public DateTime? Deleted { get; set; }
+        public virtual List<PictureStorageModel> Pictures { get; set; }
     }
 }
