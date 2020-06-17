@@ -49,6 +49,28 @@ namespace PictureManagement.Controllers
                 .ToList();
         }
 
+        [HttpGet("userfavorites/{userId}")]
+        public List<EventShortInfoViewModel> GetUserFavoritesShortInfoList(Guid userId)
+        {
+            return _userEventsService
+                .GetFavoritesShortInfoList(userId)
+                .Select(e => new EventShortInfoViewModel()
+                {
+                    Id = e.Id,
+                    LocationAddress = e.LocationAddress,
+                    Pictures = e.Pictures,
+                    StartsAt = e.StartsAt,
+                    Title = e.Title
+                })
+                .ToList();
+        }
+
+        [HttpPost("userfavorites/{userId}/{id}")]
+        public void GetUserFavoritesShortInfoList(Guid userId, string id)
+        {
+            _userEventsService.AddToFavorites(userId, id);
+        }
+
         [HttpGet("usereventsshortinfo")]
         public List<EventShortInfoViewModel> GetUserEventsShortInfoList()
         {

@@ -16,5 +16,7 @@ namespace WebApp.Repositories
         void EditEvent(Event e);
 
         void DeleteEvent(string eventId);
+
+        void AddToFavorites(Guid userId, string id);
     }
 }

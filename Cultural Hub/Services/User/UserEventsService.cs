@@ -54,6 +54,25 @@ namespace Services.User
                     LocationAddress = e.LocationAddress
                 }).ToList();
         }
+
+        public IEnumerable<UserEventShortInfo> GetFavoritesShortInfoList(Guid userId)
+        {
+            return _eventsReader.GetFavoriteEvents(userId)
+                .Select(e => new UserEventShortInfo
+                {
+                    ClientId = e.Client,
+                    Title = e.Title,
+                    StartsAt = e.StartsAt,
+                    Pictures = e.Pictures.Select(x => new Uri(x.Link)),
+                    Id = e.Id,
+                    LocationAddress = e.LocationAddress
+                }).ToList();
+        }
+
+        public void AddToFavorites(Guid userId, string id)
+        {
+            _eventsRepository.AddToFavorites(userId, id);
+        }
     }
 
     public class SimplePicture
@@ -75,5 +94,6 @@ namespace Services.User
     public interface IUserEventsReader
     {
         IEnumerable<EventWithPictures> GetEvents();
+        IEnumerable<EventWithPictures> GetFavoriteEvents(Guid userId);
     }
 }

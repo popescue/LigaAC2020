@@ -62,6 +62,13 @@
 </div>
 <div>
     <a asp-area="" asp-controller="Home" asp-action="Index"> Back to List</a>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <form method="post" role="form" asp-controller="Events" asp-action="Favorite">
+            <button type="submit" name="id" value="@Model.Id">Add to Favorites</button>
+            @*<a asp-area="" asp-controller="Events" asp-action="Favorite" asp-route-id="@Model.Id"> Add to Favorites</a>*@
+        </form>
+    }
 </div>
 
 

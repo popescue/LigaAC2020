@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,13 +18,6 @@ namespace WebApp.Controllers
 {
     public class EventsController : Controller
     {
-        private readonly IWebHostEnvironment _environment;
-
-        public EventsController(IWebHostEnvironment environment)
-        {
-            _environment = environment;
-        }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> Details(string id)
         {
@@ -141,11 +136,34 @@ namespace WebApp.Controllers
         //}
 
         [HttpGet]
+        [Authorize]
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         //[Authorize(Roles = "User")]
-        public IActionResult FavoriteEvents()
+        public async Task<IActionResult> FavoriteEvents()
         {
-            return View();
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("https://localhost:44323/");
+
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            var result = await httpClient.GetAsync($"/events/userfavorites/{userId}");
+            var content = await result.Content.ReadAsStringAsync();
+            var deserialized = JsonConvert.DeserializeObject<List<EventShortInfoViewModel>>(content);
+
+            return View(deserialized);
+        }
+
+        [HttpPost("[controller]/favorite")]
+        public async Task<IActionResult> Favorite([FromForm] string id)
+        {
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("https://localhost:44323/");
+
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            var result = await httpClient.PostAsync($"/events/userfavorites/{userId}/{id}", new StringContent(""));
+
+            return RedirectToAction("FavoriteEvents");
         }
 
         //[HttpPost]

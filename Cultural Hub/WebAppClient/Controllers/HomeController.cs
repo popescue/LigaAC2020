@@ -12,7 +12,7 @@ using WebAppClient.Models;
 
 namespace WebAppClient.Controllers
 {
-    [Authorize("AllowAll")]
+    [Authorize]
     public class HomeController : Controller
     {
         public async Task<IActionResult> IndexAsync()

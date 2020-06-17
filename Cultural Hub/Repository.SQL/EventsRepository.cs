@@ -130,5 +130,18 @@ namespace WebApp.Repositories
 
             _culturalHubContext.SaveChanges();
         }
+
+        public void AddToFavorites(Guid userId, string id)
+        {
+            var favoritesEntity = _culturalHubContext
+                .FavoriteEvents
+                .Single(x => x.UserId == userId.ToString());
+
+            favoritesEntity.AddFavorite(id);
+
+            _culturalHubContext.Update(favoritesEntity);
+
+            _culturalHubContext.SaveChanges();
+        }
     }
 }
